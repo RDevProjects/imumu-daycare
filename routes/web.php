@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Public pages — anyone can access
-Route::view('/', 'index')->name('home');
-Route::view('/programs', 'programs')->name('programs');
-Route::view('/contact', 'contact')->name('contact');
+// Test 404 — hapus baris ini setelah testing selesai
+// Route::get('/test-404', fn() => abort(404));
 
-// Guest routes — only accessible when not logged in
+// Public pages
+Route::view('/', 'pages.index')->name('home');
+Route::view('/programs', 'pages.programs')->name('programs');
+Route::view('/contact', 'pages.contact')->name('contact');
+
+// Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -25,7 +28,7 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('pages.dashboard');
     })->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
