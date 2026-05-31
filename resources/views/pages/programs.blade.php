@@ -1,4 +1,13 @@
 @extends('layouts.front', ['activePage' => 'programs'])
+@php
+  $waNumber = \App\Models\Setting::get('daycare_wa', '');
+  $waName = \App\Models\Setting::get('wa_contact_name', '');
+  $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
+  $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
+  if (strlen($waDisplayNumber) > 4) {
+    $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
+  }
+@endphp
 
 @section('title', 'Program & Fasilitas – IMUMU Daycare Surakarta')
 @section('description', 'Program kegiatan dan fasilitas IMUMU Daycare: stimulasi perkembangan, hafalan do\'a, baby massage, cooking class, freezer ASI, dan lebih banyak lagi.')
@@ -235,10 +244,10 @@
 
   <div class="relative mx-auto max-w-3xl rounded-card text-center px-8 py-12" style="background:#09b1ab; box-shadow: 8px 8px 0 #087c7a">
     <h2 class="font-display text-3xl font-black text-white">Siap Daftar?</h2>
-    <p class="mt-2 text-lg font-semibold" style="color:rgba(255,255,255,0.85)">Isi formulir pendaftaran atau hubungi Bunda Anjani langsung.</p>
+    <p class="mt-2 text-lg font-semibold" style="color:rgba(255,255,255,0.85)">Isi formulir pendaftaran atau hubungi {{ $waDisplayName }} langsung.</p>
     <div class="mt-6 flex flex-wrap justify-center gap-4">
       <a href="{{ route('contact') }}" class="btn btn-secondary btn-lg">Isi Formulir Daftar</a>
-      <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-ghost btn-lg" style="color:white; box-shadow: inset 0 0 0 2px white, 4px 4px 0 rgba(47,43,43,0.2)">💬 0858-7774-8008</a>
+      <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="btn btn-ghost btn-lg" style="color:white; box-shadow: inset 0 0 0 2px white, 4px 4px 0 rgba(47,43,43,0.2)">💬 {{ $waDisplayNumber }}</a>
     </div>
   </div>
 </section>

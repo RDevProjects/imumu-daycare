@@ -135,7 +135,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary w-full btn-lg font-black">🌟 Kirim Pendaftaran</button>
-          <p class="text-xs text-center font-semibold" style="color:#5c5555">Atau hubungi langsung via <a href="https://wa.me/6285877748008" class="text-teal font-black no-underline hover:underline">WhatsApp 0858-7774-8008</a></p>
+          <p class="text-xs text-center font-semibold" style="color:#5c5555">Atau hubungi langsung via <a href="https://wa.me/{{ \App\Models\Setting::get('daycare_wa', '') }}" class="text-teal font-black no-underline hover:underline">WhatsApp {{ \App\Models\Setting::get('daycare_wa', '') ? '0' . substr(\App\Models\Setting::get('daycare_wa', ''), 2) : '' }}</a></p>
         </form>
       </div>
     </div>

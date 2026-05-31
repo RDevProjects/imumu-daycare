@@ -1,5 +1,13 @@
 @php
   $isActive = fn($page) => $activePage === $page ? 'active' : '';
+  $waNumber = \App\Models\Setting::get('daycare_wa', '');
+  $waName = \App\Models\Setting::get('wa_contact_name', '');
+  $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
+  // Format: 628123456789 → 0812-3456-789
+  $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
+  if (strlen($waDisplayNumber) > 4) {
+    $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
+  }
 @endphp
 
 <header class="sticky top-0 z-40 bg-white/98 backdrop-blur-sm" style="box-shadow: 0 4px 0 #ffd900, 0 6px 20px rgba(47,43,43,0.08)">
@@ -32,7 +40,9 @@
           <button type="submit" class="btn btn-ghost btn-sm" style="border-color:#e83f7d; color:#e83f7d; box-shadow: 3px 3px 0 rgba(232,63,125,0.2)">Logout</button>
         </form>
       @else
-        <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">💬 WhatsApp</a>
+        @if($waNumber)
+        <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">💬 {{ $waDisplayName }}</a>
+        @endif
         <a href="{{ route('daftar') }}" class="btn btn-primary btn-sm">Daftar Anak</a>
       @endauth
     </div>
@@ -60,7 +70,9 @@
       </form>
     @else
       <a href="{{ route('login') }}" class="block px-4 py-3 rounded-soft font-semibold text-ink hover:bg-cream">Login</a>
-      <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-secondary w-full mt-2">💬 Hubungi via WhatsApp</a>
+      @if($waNumber)
+      <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="btn btn-secondary w-full mt-2">💬 Hubungi {{ $waDisplayName }}</a>
+      @endif
     @endauth
   </div>
 </header>

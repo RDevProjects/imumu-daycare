@@ -101,7 +101,7 @@
   <!-- Help -->
   <div class="mt-6 text-center">
     <p class="text-sm font-semibold" style="color:#5c5555">Butuh bantuan?</p>
-    <a href="https://wa.me/6285877748008" target="_blank" class="inline-flex items-center gap-2 mt-2 px-6 py-3 rounded-full font-bold text-white" style="background:#25d366">
+    <a href="https://wa.me/{{ \App\Models\Setting::get('daycare_wa', '') }}" target="_blank" class="inline-flex items-center gap-2 mt-2 px-6 py-3 rounded-full font-bold text-white" style="background:#25d366">
       💬 Chat WhatsApp
     </a>
   </div>

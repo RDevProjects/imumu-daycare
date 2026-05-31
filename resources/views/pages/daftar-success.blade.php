@@ -52,8 +52,8 @@
 
     <!-- Actions -->
     <div class="mt-8 flex flex-wrap justify-center gap-4">
-      <a href="https://wa.me/{{ $enrollment->parent_phone ? (str_starts_with($enrollment->parent_phone, '0') ? '62' . substr($enrollment->parent_phone, 1) : $enrollment->parent_phone) : '6285877748008' }}" target="_blank" class="btn btn-secondary btn-lg">
-        💬 Chat Bunda Anjani
+      <a href="https://wa.me/{{ $enrollment->parent_phone ? (str_starts_with($enrollment->parent_phone, '0') ? '62' . substr($enrollment->parent_phone, 1) : $enrollment->parent_phone) : '{{ \App\Models\Setting::get("daycare_wa", "") }}' }}" target="_blank" class="btn btn-secondary btn-lg">
+        💬 Chat {{ \App\Models\Setting::get("wa_contact_name", "") ? "Bunda " . \App\Models\Setting::get("wa_contact_name", "") : "Bunda" }}
       </a>
       <a href="{{ route('home') }}" class="btn btn-primary btn-lg">
         🏠 Kembali ke Beranda

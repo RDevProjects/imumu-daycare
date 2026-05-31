@@ -13,8 +13,9 @@ class DefaultSettingsSeeder extends Seeder
             // Daycare Info
             'daycare_name' => 'IMUMU Daycare',
             'daycare_address' => 'Jl. Bone 3 RT 01 RW 03, Banyuanyar, Banjarsari, Surakarta, Jawa Tengah',
-            'daycare_phone' => '085877748008',
-            'daycare_wa' => '6285877748008',
+            'daycare_phone' => '',
+            'daycare_wa' => '',
+            'wa_contact_name' => '',
             'daycare_email' => 'info@imumu.com',
             'daycare_open_time' => '08:00',
             'daycare_close_time' => '16:00',

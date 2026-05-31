@@ -1,7 +1,17 @@
 @extends('layouts.front', ['activePage' => 'contact'])
 
+@php
+  $waNumber = \App\Models\Setting::get('daycare_wa', '');
+  $waName = \App\Models\Setting::get('wa_contact_name', '');
+  $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
+  $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
+  if (strlen($waDisplayNumber) > 4) {
+    $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
+  }
+@endphp
+
 @section('title', 'Daftar & Kontak – IMUMU Daycare Surakarta')
-@section('description', 'Daftar anak Anda di IMUMU Daycare. Hubungi Bunda Anjani di 0858-7774-8008 atau kunjungi kami di Jl. Bone 3, Banyuanyar, Banjarsari, Surakarta.')
+@section('description', 'Daftar anak Anda di IMUMU Daycare. Hubungi {{ $waDisplayName }} di {{ $waDisplayNumber }} atau kunjungi kami di Jl. Bone 3, Banyuanyar, Banjarsari, Surakarta.')
 
 @section('content')
 
@@ -19,11 +29,11 @@
       Daftarkan Si Kecil<br/>Sekarang! 🌟
     </h1>
     <p class="section-subtitle mt-4 max-w-2xl mx-auto">
-      Isi formulir di bawah ini atau langsung hubungi <strong>Bunda Anjani</strong> via WhatsApp. Kami akan segera merespons!
+      Isi formulir di bawah ini atau langsung hubungi <strong>{{ $waDisplayName }}</strong> via WhatsApp. Kami akan segera merespons!
     </p>
     <div class="mt-5">
-      <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">
-        💬 Chat Langsung – 0858-7774-8008
+      <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">
+        💬 Chat Langsung – {{ $waDisplayNumber }}
       </a>
     </div>
   </div>
@@ -82,7 +92,7 @@
             <textarea id="pesan" name="pesan" rows="3" class="input-field" placeholder="Ada yang ingin ditanyakan? Kami siap membantu."></textarea>
           </div>
           <button type="submit" class="btn btn-primary w-full btn-lg font-black">🌟 Kirim Pendaftaran</button>
-          <p class="text-xs text-center font-semibold" style="color:#5c5555">Atau hubungi langsung via <a href="https://wa.me/6285877748008" class="text-teal font-black no-underline hover:underline">WhatsApp 0858-7774-8008</a></p>
+          <p class="text-xs text-center font-semibold" style="color:#5c5555">Atau hubungi langsung via <a href="https://wa.me/{{ $waNumber }}" class="text-teal font-black no-underline hover:underline">WhatsApp {{ $waDisplayNumber }}</a></p>
         </form>
       </div>
     </div>
@@ -104,9 +114,9 @@
       <div class="card" style="border-color:#09b1ab; background: linear-gradient(135deg, white 60%, #d8f7f5 100%); box-shadow: 5px 5px 0 #09b1ab">
         <div class="flex items-center gap-3 mb-3"><span class="text-3xl">📱</span><h3 class="font-display text-lg font-black text-ink">Hubungi Kami</h3></div>
         <div class="space-y-3 text-sm">
-          <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-soft no-underline transition-all hover:-translate-y-0.5" style="background:#18a058; color:white">
+          <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-soft no-underline transition-all hover:-translate-y-0.5" style="background:#18a058; color:white">
             <span class="text-xl">💬</span>
-            <div><div class="font-black">WhatsApp</div><div class="text-xs opacity-80">0858-7774-8008 (Bunda Anjani)</div></div>
+            <div><div class="font-black">WhatsApp</div><div class="text-xs opacity-80">{{ $waDisplayNumber }} ({{ $waDisplayName }})</div></div>
           </a>
           <a href="https://www.instagram.com/imumu_daycare" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-soft no-underline transition-all hover:-translate-y-0.5" style="background: linear-gradient(135deg, #f36b21, #e83f7d); color:white">
             <span class="text-xl">📸</span>

@@ -1,5 +1,15 @@
 @extends('layouts.front', ['activePage' => 'home'])
 
+@php
+  $waNumber = \App\Models\Setting::get('daycare_wa', '');
+  $waName = \App\Models\Setting::get('wa_contact_name', '');
+  $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
+  $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
+  if (strlen($waDisplayNumber) > 4) {
+    $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
+  }
+@endphp
+
 @section('title', 'IMUMU Daycare – Penitipan Anak Terpercaya di Surakarta')
 @section('description', 'IMUMU Daycare menyediakan penitipan anak yang aman, hangat, dan menyenangkan. Usia 3 bulan – 7 tahun. Senin–Sabtu 08.00–16.00.')
 
@@ -26,7 +36,7 @@
 
       <div class="mt-6 flex flex-wrap gap-3">
         <a href="{{ route('daftar') }}" class="btn btn-primary btn-lg">🌟 Daftar Sekarang</a>
-        <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">💬 Tanya Bunda Anjani</a>
+        <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">💬 Tanya {{ $waDisplayName }}</a>
       </div>
 
       <div class="mt-8 flex flex-wrap gap-3">
@@ -273,10 +283,10 @@
     <div class="text-5xl mb-4">💬</div>
     <h2 class="font-display text-3xl font-black text-white md:text-4xl">Ada Pertanyaan?</h2>
     <p class="mt-2 text-lg font-semibold" style="color:rgba(255,255,255,0.85)">
-      Hubungi langsung <strong class="text-white">Bunda Anjani</strong> via WhatsApp. Kami siap membantu!
+      Hubungi langsung <strong class="text-white">{{ $waDisplayName }}</strong> via WhatsApp. Kami siap membantu!
     </p>
     <div class="mt-6 flex flex-wrap justify-center gap-4">
-      <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">💬 0858-7774-8008</a>
+      <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">💬 {{ $waDisplayNumber }}</a>
       <a href="{{ route('contact') }}" class="btn btn-ghost btn-lg" style="color:white; box-shadow: inset 0 0 0 2px white, 4px 4px 0 rgba(47,43,43,0.2)">Isi Formulir Daftar</a>
     </div>
   </div>

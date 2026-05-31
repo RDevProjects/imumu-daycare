@@ -11,7 +11,7 @@
 
 @section('content')
 <div x-data="{
-    activeSection: 'profil',
+    activeSection: '{{ session('active_section', 'profil') }}',
     tarif: {
       pendaftaran: {{ (int) ($settings['tarif_pendaftaran'] ?? 250000) }},
     }
@@ -95,13 +95,19 @@
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Telepon / WhatsApp</label>
-              <input type="tel" name="daycare_wa" value="{{ old('daycare_wa', $settings['daycare_wa'] ?? '') }}" class="input-field">
+              <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">No WhatsApp</label>
+              <input type="tel" name="daycare_wa" value="{{ old('daycare_wa', $settings['daycare_wa'] ?? '') }}" class="input-field" placeholder="628xxxxxxxxxx">
+              <p class="text-xs text-gray-400 mt-1">Format: 628xxxxxxxxxx</p>
             </div>
             <div>
-              <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Email</label>
-              <input type="email" name="daycare_email" value="{{ old('daycare_email', $settings['daycare_email'] ?? '') }}" class="input-field">
+              <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Nama Kontak WhatsApp</label>
+              <input type="text" name="wa_contact_name" value="{{ old('wa_contact_name', $settings['wa_contact_name'] ?? '') }}" class="input-field" placeholder="Kosongkan → tampil 'Bunda'">
+              <p class="text-xs text-gray-400 mt-1">Contoh: "Anjani" → tampil "Bunda Anjani"</p>
             </div>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Email</label>
+            <input type="email" name="daycare_email" value="{{ old('daycare_email', $settings['daycare_email'] ?? '') }}" class="input-field">
           </div>
           <div class="pt-4 border-t border-gray-100 dark:border-imumu-dark-border">
             <h4 class="font-semibold text-gray-700 dark:text-imumu-dark-text mb-3">Jam Operasional</h4>
@@ -125,17 +131,21 @@
   </div>
 
   {{-- ===== TARIF & PAKET ===== --}}
-  <div x-show="activeSection === 'tarif'" class="max-w-3xl space-y-6">
+  <div x-show="activeSection === 'tarif'" x-data="{
+      formatIDR(value) { return value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); },
+      unformatIDR(value) { return value.replace(/\./g, ''); }
+    }" class="max-w-3xl space-y-6">
     {{-- Tarif Pendaftaran --}}
     <div class="card">
       <h3 class="text-lg font-bold text-gray-700 dark:text-imumu-dark-text mb-2 font-poppins">Biaya Pendaftaran</h3>
       <p class="text-sm text-gray-400 dark:text-gray-400 mb-4">Tarif biaya pendaftaran (sekali bayar)</p>
-      <form action="{{ route('dashboard.pengaturan.update') }}" method="POST">
+      <form action="{{ route('dashboard.pengaturan.update') }}" method="POST" id="tarifForm">
         @csrf
         <div class="bg-imumu-yellow-light/50 dark:bg-imumu-dark-yellow/10 rounded-xl p-5 border border-imumu-yellow/30">
           <div class="flex items-center gap-3">
             <span class="text-gray-500 dark:text-gray-400 text-sm">Rp</span>
-            <input type="number" name="tarif_pendaftaran" value="{{ old('tarif_pendaftaran', $settings['tarif_pendaftaran'] ?? 250000) }}" class="input-field w-40 text-lg font-bold">
+            <input type="text" id="tarif_pendaftaran_display" value="{{ number_format(old('tarif_pendaftaran', $settings['tarif_pendaftaran'] ?? 250000), 0, ',', '.') }}" class="input-field w-48 text-lg font-bold" onfocus="this.value=this.value.replace(/\./g,'')" onblur="this.value=this.value.replace(/\D/g,'').replace(/\B(?=(\d{3})+(?!\d))/g,'.')">
+            <input type="hidden" name="tarif_pendaftaran" id="tarif_pendaftaran" value="{{ old('tarif_pendaftaran', $settings['tarif_pendaftaran'] ?? 250000) }}">
           </div>
         </div>
         <div class="flex gap-3 pt-4">
@@ -164,7 +174,8 @@
               <option value="harian" {{ $pkg->type === 'harian' ? 'selected' : '' }}>Harian</option>
               <option value="bulanan" {{ $pkg->type === 'bulanan' ? 'selected' : '' }}>Bulanan</option>
             </select>
-            <input type="number" name="price" value="{{ (int) $pkg->price }}" class="input-field text-sm" placeholder="Harga">
+            <input type="text" value="{{ number_format((int) $pkg->price, 0, ',', '.') }}" class="input-field text-sm pkg-price-display" onfocus="this.value=this.value.replace(/\./g,'')" onblur="this.value=this.value.replace(/\D/g,'').replace(/\B(?=(\d{3})+(?!\d))/g,'.')" data-hidden="pkg_price_{{ $pkg->id }}">
+            <input type="hidden" name="price" id="pkg_price_{{ $pkg->id }}" value="{{ (int) $pkg->price }}">
             <div class="flex items-center gap-2">
               <button type="submit" class="btn-primary text-sm py-2 flex-1">Simpan</button>
               <button type="button" onclick="if(confirm('Hapus paket ini?')) fetch('{{ route('dashboard.packages.destroy', $pkg) }}', {method: 'DELETE', headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}}).then(() => location.reload())" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm">
@@ -189,13 +200,31 @@
               <option value="harian">Harian</option>
               <option value="bulanan">Bulanan</option>
             </select>
-            <input type="number" name="price" class="input-field text-sm" placeholder="Harga" required>
+            <input type="text" class="input-field text-sm" placeholder="Harga" onfocus="this.value=this.value.replace(/\./g,'')" onblur="this.value=this.value.replace(/\D/g,'').replace(/\B(?=(\d{3})+(?!\d))/g,'.')" onchange="document.getElementById('new_pkg_price').value=this.value.replace(/\./g,'')">
+            <input type="hidden" name="price" id="new_pkg_price">
             <button type="submit" class="btn-success text-sm py-2">+ Tambah Paket</button>
           </div>
         </div>
       </form>
     </div>
   </div>
+
+  {{-- Script to sync display and hidden values on form submit --}}
+  <script>
+    document.getElementById('tarifForm')?.addEventListener('submit', function(e) {
+      const display = document.getElementById('tarif_pendaftaran_display');
+      const hidden = document.getElementById('tarif_pendaftaran');
+      hidden.value = display.value.replace(/\./g, '');
+    });
+
+    document.querySelectorAll('.pkg-price-display').forEach(input => {
+      input.addEventListener('blur', function() {
+        const hiddenId = this.dataset.hidden;
+        const hidden = document.getElementById(hiddenId);
+        if (hidden) hidden.value = this.value.replace(/\./g, '');
+      });
+    });
+  </script>
 
   {{-- ===== REKENING BANK ===== --}}
   <div x-show="activeSection === 'rekening'" class="max-w-3xl space-y-6">

@@ -11,9 +11,21 @@
         </div>
       </div>
         <p class="text-sm" style="color:rgba(255,255,255,0.65); line-height:1.7">Tempat si kecil tumbuh, belajar, dan bahagia setiap hari bersama pengasuh yang penuh kasih.</p>
+@php
+  $waNumber = \App\Models\Setting::get('daycare_wa', '');
+  $waName = \App\Models\Setting::get('wa_contact_name', '');
+  $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
+  // Format: 628123456789 → 0812-3456-789
+  $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
+  if (strlen($waDisplayNumber) > 4) {
+    $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
+  }
+@endphp
         <div class="mt-4 flex gap-3">
           <a href="https://www.instagram.com/imumu_daycare" target="_blank" rel="noopener" aria-label="Instagram IMUMU Daycare" class="flex h-10 w-10 items-center justify-center rounded-full font-bold text-sm transition-all hover:-translate-y-0.5" style="background: linear-gradient(135deg, #f36b21, #e83f7d); color:white">IG</a>
-          <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" aria-label="WhatsApp IMUMU Daycare" class="flex h-10 w-10 items-center justify-center rounded-full font-bold text-sm transition-all hover:-translate-y-0.5" style="background:#18a058; color:white">WA</a>
+          @if($waNumber)
+          <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" aria-label="WhatsApp IMUMU Daycare" class="flex h-10 w-10 items-center justify-center rounded-full font-bold text-sm transition-all hover:-translate-y-0.5" style="background:#18a058; color:white">WA</a>
+          @endif
         </div>
       </div>
 
@@ -31,10 +43,12 @@
       <div>
         <h4 class="font-display text-sm font-black uppercase tracking-widest mb-4" style="color:#09b1ab">Kontak</h4>
         <ul class="space-y-3 text-sm" style="color:rgba(255,255,255,0.7)" role="list">
+          @if($waNumber)
           <li class="flex items-start gap-2">
             <span>📱</span>
-            <a href="https://wa.me/6285877748008" class="hover:text-white transition-colors no-underline">0858-7774-8008<br/><span class="text-xs" style="color:#09b1ab">(Bunda Anjani)</span></a>
+            <a href="https://wa.me/{{ $waNumber }}" class="hover:text-white transition-colors no-underline">{{ $waDisplayNumber }}<br/><span class="text-xs" style="color:#09b1ab">({{ $waDisplayName }})</span></a>
           </li>
+          @endif
           <li class="flex items-start gap-2">
             <span>📸</span>
             <a href="https://www.instagram.com/imumu_daycare" target="_blank" rel="noopener" class="hover:text-white transition-colors no-underline">@imumu_daycare</a>
