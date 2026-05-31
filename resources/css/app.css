@@ -1,9 +1,170 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  /* Light Mode Colors */
+  --color-imumu-pink: #FFB6C1;
+  --color-imumu-pink-light: #FFD1DC;
+  --color-imumu-pink-dark: #FF8FAF;
+  --color-imumu-peach: #FFDAB9;
+  --color-imumu-peach-light: #FFE5CC;
+  --color-imumu-yellow: #FFD700;
+  --color-imumu-yellow-light: #FFF0B3;
+  --color-imumu-blue: #87CEEB;
+  --color-imumu-blue-light: #B8E4F0;
+  --color-imumu-green: #98FB98;
+  --color-imumu-green-light: #B8F5B8;
+  --color-imumu-orange: #FFA07A;
+  --color-imumu-purple: #DDA0DD;
+  --color-imumu-bg: #FFF5F7;
+  --color-imumu-card: #FFFFFF;
+
+  /* Dark Mode Colors */
+  --color-imumu-dark-bg: #1a1a2e;
+  --color-imumu-dark-surface: #16213e;
+  --color-imumu-dark-card: #1e293b;
+  --color-imumu-dark-border: #334155;
+  --color-imumu-dark-text: #e2e8f0;
+  --color-imumu-dark-text-muted: #94a3b8;
+  --color-imumu-dark-pink: #fb7185;
+  --color-imumu-dark-pink-light: #fda4af;
+  --color-imumu-dark-peach: #fdba74;
+  --color-imumu-dark-yellow: #fbbf24;
+  --color-imumu-dark-blue: #60a5fa;
+  --color-imumu-dark-green: #34d399;
+  --color-imumu-dark-purple: #c084fc;
+
+  --font-poppins: 'Poppins', sans-serif;
+  --font-quicksand: 'Quicksand', sans-serif;
 }
+
+@layer base {
+  * { @apply box-border; }
+
+  body {
+    font-family: var(--font-quicksand);
+    background-color: var(--color-imumu-bg);
+    color: #4A4A4A;
+    min-height: 100vh;
+  }
+
+  body.dark {
+    background-color: var(--color-imumu-dark-bg);
+    color: var(--color-imumu-dark-text);
+  }
+
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-poppins); }
+  input, select, textarea { font-family: var(--font-quicksand); }
+}
+
+@layer components {
+  /* ===== Buttons — Solid Colors, No Gradients ===== */
+  .btn-primary {
+    @apply bg-imumu-pink-dark text-white font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:bg-imumu-pink transition-all duration-200 cursor-pointer;
+  }
+  .dark .btn-primary { @apply bg-imumu-dark-pink hover:bg-imumu-dark-pink-light; }
+
+  .btn-secondary {
+    @apply bg-white text-imumu-pink-dark border-2 border-imumu-pink font-semibold py-3 px-6 rounded-full shadow-sm hover:shadow-md hover:bg-imumu-pink-light transition-all duration-200 cursor-pointer;
+  }
+  .dark .btn-secondary {
+    @apply bg-imumu-dark-card text-imumu-dark-pink border-imumu-dark-pink hover:bg-imumu-dark-surface;
+  }
+
+  .btn-success {
+    @apply bg-green-500 text-white font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:bg-green-600 transition-all duration-200 cursor-pointer;
+  }
+
+  .btn-warning {
+    @apply bg-imumu-orange text-white font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:bg-orange-400 transition-all duration-200 cursor-pointer;
+  }
+
+  .btn-danger {
+    @apply bg-red-500 text-white font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:bg-red-600 transition-all duration-200 cursor-pointer;
+  }
+
+  .btn-blue {
+    @apply bg-imumu-blue text-white font-semibold py-3 px-6 rounded-full shadow-md hover:shadow-lg hover:bg-blue-400 transition-all duration-200 cursor-pointer;
+  }
+
+  /* ===== Cards ===== */
+  .card {
+    @apply bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow duration-200;
+  }
+  .dark .card { @apply bg-imumu-dark-card border border-imumu-dark-border; }
+
+  .stat-card {
+    @apply bg-white rounded-2xl shadow-sm p-5 hover:shadow-md transition-all duration-200;
+  }
+  .dark .stat-card { @apply bg-imumu-dark-card border border-imumu-dark-border; }
+
+  /* ===== Inputs ===== */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-imumu-pink focus:outline-none focus:ring-2 focus:ring-imumu-pink-light/50 transition-all duration-200 bg-white;
+  }
+  .dark .input-field {
+    @apply bg-imumu-dark-surface border-imumu-dark-border text-imumu-dark-text placeholder-gray-500 focus:border-imumu-dark-pink focus:ring-imumu-dark-pink/50;
+  }
+
+  /* ===== Navigation ===== */
+  .nav-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-imumu-pink-light/50 transition-all duration-200 cursor-pointer;
+  }
+  .dark .nav-link { @apply text-imumu-dark-text-muted hover:bg-imumu-dark-surface hover:text-imumu-dark-pink; }
+
+  .nav-link-active {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl bg-imumu-pink-light text-imumu-pink-dark font-semibold cursor-pointer;
+  }
+  .dark .nav-link-active {
+    @apply bg-imumu-dark-surface text-imumu-dark-pink border border-imumu-dark-pink/30;
+  }
+
+  /* ===== Badges ===== */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide;
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.08);
+  }
+  .badge-success { @apply bg-green-100 text-green-700 border border-green-300; }
+  .dark .badge-success { @apply bg-green-900/40 text-green-400 border-green-700; }
+
+  .badge-warning { @apply bg-yellow-100 text-yellow-700 border border-yellow-300; }
+  .dark .badge-warning { @apply bg-yellow-900/40 text-yellow-400 border-yellow-700; }
+
+  .badge-danger { @apply bg-red-100 text-red-700 border border-red-300; }
+  .dark .badge-danger { @apply bg-red-900/40 text-red-400 border-red-700; }
+
+  .badge-info { @apply bg-blue-100 text-blue-700 border border-blue-300; }
+  .dark .badge-info { @apply bg-blue-900/40 text-blue-400 border-blue-700; }
+
+  .badge-pink { @apply bg-pink-100 text-pink-700 border border-pink-300; }
+  .dark .badge-pink { @apply bg-pink-900/40 text-pink-400 border-pink-700; }
+
+  .badge-purple { @apply bg-purple-100 text-purple-700 border border-purple-300; }
+  .dark .badge-purple { @apply bg-purple-900/40 text-purple-400 border-purple-700; }
+
+  .badge-teal { @apply bg-teal-100 text-teal-700 border border-teal-300; }
+  .dark .badge-teal { @apply bg-teal-900/40 text-teal-400 border-teal-700; }
+
+  .badge-gray { @apply bg-gray-100 text-gray-600 border border-gray-300; }
+  .dark .badge-gray { @apply bg-gray-800 text-gray-400 border-gray-600; }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-imumu-pink-dark;
+  }
+  .dark .text-gradient { @apply text-imumu-dark-pink bg-none; }
+
+  .animate-float { animation: float 3s ease-in-out infinite; }
+  .animate-bounce-slow { animation: bounce 2s ease-in-out infinite; }
+  .animate-wiggle { animation: wiggle 1s ease-in-out infinite; }
+  .fade-in { animation: fadeIn 0.5s ease-out; }
+  .slide-up { animation: slideUp 0.5s ease-out; }
+}
+
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes wiggle { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
