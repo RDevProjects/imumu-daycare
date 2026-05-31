@@ -7,8 +7,8 @@
   <div class="bg-white dark:bg-imumu-dark-card dark:border-imumu-dark-border rounded-2xl shadow-lg p-8 w-full max-w-md border border-gray-100 dark:border-imumu-dark-border fade-in">
 
     <div class="text-center mb-8">
-      <div class="inline-flex items-center justify-center w-16 h-16 bg-imumu-pink-dark rounded-xl shadow-sm mb-4">
-        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      <div class="inline-flex items-center justify-center w-20 h-20 bg-white dark:bg-imumu-dark-card rounded-xl shadow-sm mb-4 border border-gray-100 dark:border-imumu-dark-border">
+        <img src="{{ asset('icon.webp') }}" alt="IMUMU Daycare" class="w-14 h-14 object-contain" />
       </div>
       <h1 class="text-2xl font-bold text-imumu-pink-dark dark:text-imumu-dark-pink font-poppins">IMUMU Daycare</h1>
       <p class="text-gray-400 dark:text-gray-400 mt-1">Selamat datang!</p>

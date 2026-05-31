@@ -25,8 +25,13 @@
 </section>
 
 <!-- Program Kegiatan -->
-<section class="mx-auto max-w-7xl px-4 py-16 md:py-20 md:px-8">
-  <div class="flex items-center gap-4 mb-10">
+<section class="section-decorated bg-dot-pattern mx-auto max-w-7xl px-4 py-16 md:py-20 md:px-8 relative overflow-hidden" style="--dot-color: rgba(232,63,125,0.06); --dot-size: 20px; --deco-opacity: 0.12">
+  <!-- Floating decorative shapes -->
+  <div class="deco-shape deco-circle animate-deco-float" style="--deco-color: #ffd900; --deco-rotate: 12deg; --deco-duration: 7s; width: 70px; height: 70px; top: 5%; right: 3%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-blob" style="--deco-color: #09b1ab; --deco-rotate: -8deg; width: 50px; height: 55px; bottom: 10%; left: 4%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-star animate-deco-float" style="--deco-color: #e83f7d; --deco-rotate: 20deg; --deco-duration: 5.5s; --deco-delay: 1s; width: 36px; height: 36px; top: 35%; right: 8%;" aria-hidden="true"></div>
+
+  <div class="relative flex items-center gap-4 mb-10">
     <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-2xl" style="background:#e83f7d; color:white">🎒</div>
     <div>
       <h2 class="font-display text-3xl font-black text-ink">Program Kegiatan</h2>
@@ -78,9 +83,22 @@
   </div>
 </section>
 
+<!-- Wavy Divider -->
+<div class="wavy-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0 30C120 55 240 5 480 30C720 55 840 5 1080 30C1200 50 1320 10 1440 30V60H0V30Z" fill="#eaf9fc"/>
+    <path d="M0 30C120 55 240 5 480 30C720 55 840 5 1080 30C1200 50 1320 10 1440 30" stroke="#f36b21" stroke-opacity="0.12" stroke-width="2"/>
+  </svg>
+</div>
+
 <!-- Fasilitas Unggulan -->
-<section class="px-4 py-16 md:py-20" style="background:#eaf9fc">
-  <div class="mx-auto max-w-7xl">
+<section class="section-decorated px-4 py-16 md:py-20 relative overflow-hidden" style="background:#eaf9fc; --deco-opacity: 0.1">
+  <!-- Floating decorative shapes -->
+  <div class="deco-shape deco-circle" style="--deco-color: #f36b21; --deco-rotate: 15deg; width: 75px; height: 75px; top: 8%; left: 5%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-blob animate-deco-float" style="--deco-color: #b85bd6; --deco-rotate: -10deg; --deco-duration: 6.5s; width: 55px; height: 65px; bottom: 15%; right: 4%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-diamond animate-deco-float" style="--deco-color: #ffd900; --deco-rotate: 35deg; --deco-duration: 7s; --deco-delay: 2s; width: 22px; height: 22px; top: 40%; right: 10%;" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-7xl">
     <div class="flex items-center gap-4 mb-10">
       <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-2xl" style="background:#f36b21; color:white">🏠</div>
       <div>
@@ -135,8 +153,14 @@
 </section>
 
 <!-- Harga -->
-<section class="px-4 py-16 md:py-24" style="background: linear-gradient(180deg, #fff8e8 0%, #ddf7ff 100%)">
-  <div class="mx-auto max-w-7xl">
+<section class="section-decorated px-4 py-16 md:py-24 relative overflow-hidden" style="background: linear-gradient(180deg, #fff8e8 0%, #ddf7ff 100%); --deco-opacity: 0.1">
+  <!-- Floating decorative shapes -->
+  <div class="deco-shape deco-circle animate-deco-float" style="--deco-color: #ffd900; --deco-rotate: 10deg; --deco-duration: 8s; width: 50px; height: 50px; top: 8%; left: 4%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-blob" style="--deco-color: #b85bd6; --deco-rotate: -12deg; width: 70px; height: 60px; bottom: 20%; right: 6%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-star animate-deco-float" style="--deco-color: #e83f7d; --deco-rotate: 25deg; --deco-duration: 6s; --deco-delay: 2s; width: 35px; height: 35px; top: 45%; right: 10%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-diamond animate-deco-float" style="--deco-color: #09b1ab; --deco-rotate: 30deg; --deco-duration: 7s; --deco-delay: 0.5s; width: 24px; height: 24px; bottom: 10%; left: 8%;" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-7xl">
     <div class="text-center mb-12">
       <span class="badge badge-teal mb-3">💰 Harga Terjangkau</span>
       <h2 class="section-title">Tarif Penitipan</h2>
@@ -203,8 +227,13 @@
 </section>
 
 <!-- CTA -->
-<section class="px-4 py-16 md:py-20">
-  <div class="mx-auto max-w-3xl rounded-card text-center px-8 py-12" style="background:#09b1ab; box-shadow: 8px 8px 0 #087c7a">
+<section class="section-decorated px-4 py-16 md:py-20 relative overflow-hidden" style="--deco-opacity: 0.15">
+  <!-- Floating decorative shapes -->
+  <div class="deco-shape deco-circle animate-deco-float" style="--deco-color: #ffd900; --deco-rotate: 20deg; --deco-duration: 6s; width: 55px; height: 55px; top: 8%; left: 5%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-star animate-deco-float" style="--deco-color: #e83f7d; --deco-rotate: -10deg; --deco-duration: 5s; --deco-delay: 1s; width: 40px; height: 40px; top: 12%; right: 7%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-blob animate-deco-float" style="--deco-color: #b85bd6; --deco-rotate: 15deg; --deco-duration: 7s; --deco-delay: 2s; width: 45px; height: 55px; bottom: 10%; right: 10%;" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-3xl rounded-card text-center px-8 py-12" style="background:#09b1ab; box-shadow: 8px 8px 0 #087c7a">
     <h2 class="font-display text-3xl font-black text-white">Siap Daftar?</h2>
     <p class="mt-2 text-lg font-semibold" style="color:rgba(255,255,255,0.85)">Isi formulir pendaftaran atau hubungi Bunda Anjani langsung.</p>
     <div class="mt-6 flex flex-wrap justify-center gap-4">

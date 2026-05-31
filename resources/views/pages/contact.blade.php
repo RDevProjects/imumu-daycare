@@ -8,6 +8,11 @@
 <!-- Page Hero -->
 <section class="px-4 py-16 md:py-20 relative overflow-hidden" style="background: linear-gradient(135deg, #d8f7f5 0%, #fff8e8 50%, #fff4a8 100%)">
   <div class="absolute top-0 left-0 w-64 h-64 rounded-full opacity-15 -translate-y-12 -translate-x-12" style="background:#e83f7d"></div>
+  <div class="absolute bottom-0 right-0 w-48 h-48 rounded-full opacity-12 translate-y-10 translate-x-10" style="background:#b85bd6"></div>
+  <!-- Floating decorative shapes -->
+  <div class="deco-shape deco-star animate-deco-float" style="--deco-color: #ffd900; --deco-rotate: 20deg; --deco-opacity: 0.2; --deco-duration: 5s; width: 40px; height: 40px; top: 15%; right: 8%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-diamond animate-deco-float" style="--deco-color: #09b1ab; --deco-rotate: 35deg; --deco-opacity: 0.15; --deco-duration: 7s; --deco-delay: 1s; width: 24px; height: 24px; bottom: 12%; left: 6%;" aria-hidden="true"></div>
+
   <div class="relative mx-auto max-w-3xl text-center">
     <span class="badge badge-teal mb-4">✍️ Pendaftaran Mudah</span>
     <h1 class="font-display font-black text-ink" style="font-size: clamp(2rem, 5vw, 3.5rem); line-height:1.1">
@@ -24,8 +29,13 @@
   </div>
 </section>
 
-<section class="mx-auto max-w-7xl px-4 py-16 md:py-20 md:px-8">
-  <div class="grid gap-10 lg:grid-cols-5 lg:gap-14">
+<section class="section-decorated bg-dot-pattern mx-auto max-w-7xl px-4 py-16 md:py-20 md:px-8 relative overflow-hidden" style="--dot-color: rgba(9,177,171,0.06); --dot-size: 22px; --deco-opacity: 0.1">
+  <!-- Floating decorative shapes -->
+  <div class="deco-shape deco-circle animate-deco-float" style="--deco-color: #e83f7d; --deco-rotate: 10deg; --deco-duration: 6s; width: 65px; height: 65px; top: 3%; right: 4%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-blob" style="--deco-color: #ffd900; --deco-rotate: -8deg; width: 50px; height: 60px; bottom: 8%; left: 3%;" aria-hidden="true"></div>
+  <div class="deco-shape deco-diamond animate-deco-float" style="--deco-color: #b85bd6; --deco-rotate: 40deg; --deco-duration: 7.5s; --deco-delay: 2s; width: 20px; height: 20px; top: 45%; right: 6%;" aria-hidden="true"></div>
+
+  <div class="relative grid gap-10 lg:grid-cols-5 lg:gap-14">
 
     <!-- Form (3/5) -->
     <div class="lg:col-span-3">

@@ -225,4 +225,81 @@
   .check-icon {
     @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white text-xs font-bold;
   }
+
+  /* ===== DECORATIVE ELEMENTS ===== */
+
+  /* Dot pattern background */
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, var(--dot-color, rgba(47,43,43,0.06)) 1.5px, transparent 1.5px);
+    background-size: var(--dot-size, 24px) var(--dot-size, 24px);
+  }
+
+  /* Floating decorative shapes - base */
+  .deco-shape {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--deco-opacity, 0.15);
+  }
+
+  /* Circle deco */
+  .deco-circle {
+    border-radius: 50%;
+    background: var(--deco-color, #e83f7d);
+  }
+
+  /* Blob deco */
+  .deco-blob {
+    border-radius: var(--radius-blob);
+    background: var(--deco-color, #09b1ab);
+  }
+
+  /* Star deco (CSS-only star) */
+  .deco-star {
+    background: var(--deco-color, #ffd900);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  /* Diamond deco */
+  .deco-diamond {
+    background: var(--deco-color, #b85bd6);
+    transform: rotate(45deg);
+    border-radius: 4px;
+  }
+
+  /* Floating animation */
+  @keyframes deco-float {
+    0%, 100% { transform: translateY(0) rotate(var(--deco-rotate, 0deg)); }
+    50% { transform: translateY(-12px) rotate(calc(var(--deco-rotate, 0deg) + 5deg)); }
+  }
+  .animate-deco-float {
+    animation: deco-float var(--deco-duration, 6s) ease-in-out infinite;
+    animation-delay: var(--deco-delay, 0s);
+  }
+
+  /* Wavy divider */
+  .wavy-divider {
+    display: block;
+    width: 100%;
+    line-height: 0;
+    overflow: hidden;
+  }
+  .wavy-divider svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Section with decorations wrapper */
+  .section-decorated {
+    position: relative;
+    overflow: hidden;
+  }
+  .section-decorated > .deco-shape {
+    z-index: 0;
+  }
+  .section-decorated > *:not(.deco-shape):not(.wavy-divider) {
+    position: relative;
+    z-index: 1;
+  }
 }

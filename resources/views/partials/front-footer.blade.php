@@ -3,13 +3,13 @@
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <!-- Brand -->
       <div>
-        <div class="flex items-center gap-3 mb-3">
-          <div class="flex h-11 w-11 items-center justify-center rounded-full font-display text-lg font-black" style="background:#ffd900; color:#2f2b2b">☀️</div>
-          <div>
-            <div class="font-display text-lg font-black">IMUMU Daycare</div>
-            <div class="text-xs font-semibold" style="color:#09b1ab">Penitipan Anak Terpercaya</div>
-          </div>
+      <div class="flex items-center gap-3 mb-3">
+        <img src="{{ asset('icon.webp') }}" alt="IMUMU Daycare" class="h-9 w-9 object-contain" />
+        <div>
+          <div class="font-display text-lg font-black">IMUMU Daycare</div>
+          <div class="text-xs font-semibold" style="color:#09b1ab">Penitipan Anak Terpercaya</div>
         </div>
+      </div>
         <p class="text-sm" style="color:rgba(255,255,255,0.65); line-height:1.7">Tempat si kecil tumbuh, belajar, dan bahagia setiap hari bersama pengasuh yang penuh kasih.</p>
         <div class="mt-4 flex gap-3">
           <a href="https://www.instagram.com/imumu_daycare" target="_blank" rel="noopener" aria-label="Instagram IMUMU Daycare" class="flex h-10 w-10 items-center justify-center rounded-full font-bold text-sm transition-all hover:-translate-y-0.5" style="background: linear-gradient(135deg, #f36b21, #e83f7d); color:white">IG</a>

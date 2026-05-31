@@ -5,7 +5,7 @@
 <header class="sticky top-0 z-40 bg-white/98 backdrop-blur-sm" style="box-shadow: 0 4px 0 #ffd900, 0 6px 20px rgba(47,43,43,0.08)">
   <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8" aria-label="Navigasi utama">
     <a href="{{ route('home') }}" class="flex items-center gap-3 no-underline group" aria-label="IMUMU Daycare beranda">
-      <div class="flex h-12 w-12 items-center justify-center rounded-full font-display text-xl font-black text-ink" style="background-color:#ffd900; box-shadow: 3px 3px 0 rgba(47,43,43,0.2)">☀️</div>
+      <img src="{{ asset('icon.webp') }}" alt="IMUMU Daycare" class="h-10 w-10 object-contain" />
       <div>
         <div class="font-display text-xl font-black text-ink leading-none">IMUMU</div>
         <div class="text-xs font-semibold" style="color:#09b1ab">DAYCARE</div>
