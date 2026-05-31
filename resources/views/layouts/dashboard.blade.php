@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $title ?? 'Dashboard' }} - IMUMU Daycare</title>
+  {{-- Prevent dark mode flash: apply class before page renders --}}
+  <script>
+    (function() {
+      const stored = localStorage.getItem('imumu-dark-mode');
+      if (stored === 'true' || (stored === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
   @vite(['resources/css/auth.css', 'resources/js/app.js'])
 </head>
 <body x-data="{ sidebarOpen: false, darkMode: isDarkMode(), userDropdown: false, showToast: false, toastMessage: '' }" :class="{ 'dark': darkMode }" class="bg-imumu-bg dark:bg-imumu-dark-bg dark:text-imumu-dark-text min-h-screen transition-colors duration-300">
