@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - IMUMU Daycare</title>
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  @vite(['resources/css/auth.css', 'resources/js/app.js'])
 </head>
 <body x-data="{ darkMode: isDarkMode() }" :class="{ 'dark': darkMode }" class="min-h-screen bg-imumu-bg dark:bg-imumu-dark-bg overflow-hidden relative transition-colors duration-300">
 
