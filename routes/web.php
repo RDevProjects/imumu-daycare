@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -9,52 +13,75 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Test 404 — hapus baris ini setelah testing selesai
-// Route::get('/test-404', fn() => abort(404));
-
 // Public pages
-Route::view('/', 'pages.index')->name('home');
+Route::get('/', function () {
+    $packages = \App\Models\Package::active()->orderBy('name')->orderBy('type')->get();
+    $tarifPendaftaran = \App\Models\Setting::get('tarif_pendaftaran', '250000');
+    return view('pages.index', compact('packages', 'tarifPendaftaran'));
+})->name('home');
 Route::view('/programs', 'pages.programs')->name('programs');
 Route::view('/contact', 'pages.contact')->name('contact');
+
+// Registration (public)
+Route::get('/daftar', [RegistrationController::class, 'create'])->name('daftar');
+Route::post('/daftar', [RegistrationController::class, 'store'])->name('daftar.store');
+
+// Parent history page (no login required)
+Route::get('/riwayat/{token}', [\App\Http\Controllers\HistoryController::class, 'show'])->name('riwayat');
+
+// Public invoice (no login required)
+Route::get('/invoice/{invoice:slug}', [\App\Http\Controllers\PublicInvoiceController::class, 'show'])->name('public.invoice.show');
 
 // Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 });
 
-// Authenticated routes
+// Authenticated routes (Admin)
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages.dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    // Dashboard sub-pages
-    Route::get('/dashboard/profile-anak', function () {
-        return view('pages.dashboard.profile-anak');
-    })->name('dashboard.profile-anak');
+    // Settings
+    Route::get('/dashboard/pengaturan', [SettingsController::class, 'index'])->name('dashboard.pengaturan');
+    Route::post('/dashboard/pengaturan', [SettingsController::class, 'update'])->name('dashboard.pengaturan.update');
+    Route::post('/dashboard/pengaturan/profile', [SettingsController::class, 'updateAdminProfile'])->name('dashboard.pengaturan.profile');
 
-    Route::get('/dashboard/jadwal', function () {
-        return view('pages.dashboard.jadwal');
-    })->name('dashboard.jadwal');
+    // Banks
+    Route::post('/dashboard/banks', [BankController::class, 'store'])->name('dashboard.banks.store');
+    Route::patch('/dashboard/banks/{bank}', [BankController::class, 'update'])->name('dashboard.banks.update');
+    Route::delete('/dashboard/banks/{bank}', [BankController::class, 'destroy'])->name('dashboard.banks.destroy');
+    Route::post('/dashboard/banks/{bank}/toggle', [BankController::class, 'toggleActive'])->name('dashboard.banks.toggle');
 
-    Route::get('/dashboard/absensi', function () {
-        return view('pages.dashboard.absensi');
-    })->name('dashboard.absensi');
+    // Packages
+    Route::get('/dashboard/packages', [PackageController::class, 'index'])->name('dashboard.packages');
+    Route::post('/dashboard/packages', [PackageController::class, 'store'])->name('dashboard.packages.store');
+    Route::patch('/dashboard/packages/{package}', [PackageController::class, 'update'])->name('dashboard.packages.update');
+    Route::delete('/dashboard/packages/{package}', [PackageController::class, 'destroy'])->name('dashboard.packages.destroy');
+    Route::post('/dashboard/packages/{package}/toggle', [PackageController::class, 'toggleActive'])->name('dashboard.packages.toggle');
 
-    Route::get('/dashboard/pembayaran', function () {
-        return view('pages.dashboard.pembayaran');
-    })->name('dashboard.pembayaran');
+    // Children (Profile Anak)
+    Route::get('/dashboard/profile-anak', [\App\Http\Controllers\Admin\ChildController::class, 'index'])->name('dashboard.profile-anak');
 
-    Route::get('/dashboard/pesan', function () {
-        return view('pages.dashboard.pesan');
-    })->name('dashboard.pesan');
+    // Payments
+    Route::get('/dashboard/pembayaran', [\App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('dashboard.pembayaran');
+    Route::get('/dashboard/pembayaran/{payment}/verify', [\App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('dashboard.pembayaran.verify');
+    Route::post('/dashboard/pembayaran/{payment}/mark-paid', [\App\Http\Controllers\Admin\PaymentController::class, 'markAsPaid'])->name('dashboard.pembayaran.mark-paid');
+    Route::post('/dashboard/pembayaran/{payment}/mark-cash', [\App\Http\Controllers\Admin\PaymentController::class, 'markAsCash'])->name('dashboard.pembayaran.mark-cash');
+    Route::post('/dashboard/pembayaran/{payment}/reject', [\App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('dashboard.pembayaran.reject');
 
-    Route::get('/dashboard/pengaturan', function () {
-        return view('pages.dashboard.pengaturan');
-    })->name('dashboard.pengaturan');
+    // Finance Reports
+    Route::get('/dashboard/reports/finance', [\App\Http\Controllers\Admin\FinanceReportController::class, 'index'])->name('dashboard.reports.finance');
+    Route::get('/dashboard/reports/finance/export', [\App\Http\Controllers\Admin\FinanceReportController::class, 'export'])->name('dashboard.reports.finance.export');
+
+    // Invoices (admin)
+    Route::get('/dashboard/invoice/{invoice:slug}', [\App\Http\Controllers\Admin\InvoiceController::class, 'show'])->name('dashboard.invoice.show');
+
+    // Enrollments (Pendaftaran)
+    Route::get('/dashboard/pendaftaran', [\App\Http\Controllers\Admin\EnrollmentController::class, 'index'])->name('dashboard.pendaftaran');
+    Route::post('/dashboard/pendaftaran/{enrollment}/confirm', [\App\Http\Controllers\Admin\EnrollmentController::class, 'confirm'])->name('dashboard.pendaftaran.confirm');
+    Route::post('/dashboard/pendaftaran/{enrollment}/reject', [\App\Http\Controllers\Admin\EnrollmentController::class, 'reject'])->name('dashboard.pendaftaran.reject');
+    Route::get('/dashboard/pendaftaran/{enrollment}/wa-message', [\App\Http\Controllers\Admin\EnrollmentController::class, 'getWhatsAppMessage'])->name('dashboard.pendaftaran.wa');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

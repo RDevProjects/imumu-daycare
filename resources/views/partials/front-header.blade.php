@@ -16,7 +16,7 @@
     <ul class="hidden md:flex items-center gap-2" role="list">
       <li><a href="{{ route('home') }}" class="nav-link {{ $isActive('home') }}">Beranda</a></li>
       <li><a href="{{ route('programs') }}" class="nav-link {{ $isActive('programs') }}">Program &amp; Fasilitas</a></li>
-      <li><a href="{{ route('contact') }}" class="nav-link {{ $isActive('contact') }}">Daftar Sekarang</a></li>
+      <li><a href="{{ route('daftar') }}" class="nav-link {{ $isActive('daftar') }}">Daftar Sekarang</a></li>
       @auth
         <li><a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a></li>
       @else
@@ -33,7 +33,7 @@
         </form>
       @else
         <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">💬 WhatsApp</a>
-        <a href="{{ route('contact') }}" class="btn btn-primary btn-sm">Daftar Anak</a>
+        <a href="{{ route('daftar') }}" class="btn btn-primary btn-sm">Daftar Anak</a>
       @endauth
     </div>
 
@@ -51,7 +51,7 @@
   <div id="mobile-menu" class="hidden md:hidden bg-white border-t-2 border-border-default px-4 py-4 space-y-2">
     <a href="{{ route('home') }}" class="block px-4 py-3 rounded-soft {{ $isActiveMobile('home') }}">Beranda</a>
     <a href="{{ route('programs') }}" class="block px-4 py-3 rounded-soft {{ $isActiveMobile('programs') }}">Program &amp; Fasilitas</a>
-    <a href="{{ route('contact') }}" class="block px-4 py-3 rounded-soft {{ $isActiveMobile('contact') }}">Daftar Sekarang</a>
+    <a href="{{ route('daftar') }}" class="block px-4 py-3 rounded-soft {{ $isActiveMobile('daftar') }}">Daftar Sekarang</a>
     @auth
       <a href="{{ route('dashboard') }}" class="block px-4 py-3 rounded-soft {{ $isActiveMobile('dashboard') }}">Dashboard</a>
       <form action="{{ route('logout') }}" method="POST" class="mt-2">

@@ -51,7 +51,7 @@
     </form>
 
     <div class="mt-6 text-center">
-      <p class="text-gray-400 dark:text-gray-400">Belum punya akun? <a href="{{ route('register') }}" class="text-imumu-pink-dark dark:text-imumu-dark-pink font-semibold hover:underline">Daftar sekarang</a></p>
+      <a href="{{ route('home') }}" class="text-sm text-gray-400 dark:text-gray-400 hover:text-imumu-pink-dark dark:hover:text-imumu-dark-pink transition-colors">← Kembali ke Beranda</a>
     </div>
   </div>
 </div>

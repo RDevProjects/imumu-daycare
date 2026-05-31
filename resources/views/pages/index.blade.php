@@ -25,7 +25,7 @@
       </p>
 
       <div class="mt-6 flex flex-wrap gap-3">
-        <a href="{{ route('contact') }}" class="btn btn-primary btn-lg">🌟 Daftar Sekarang</a>
+        <a href="{{ route('daftar') }}" class="btn btn-primary btn-lg">🌟 Daftar Sekarang</a>
         <a href="https://wa.me/6285877748008" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">💬 Tanya Bunda Anjani</a>
       </div>
 
@@ -141,18 +141,33 @@
       <p class="section-subtitle mt-2 max-w-xl mx-auto">Harga bersahabat, fasilitas dan program terlengkap.</p>
     </div>
 
+@php
+  $tarif = $tarifPendaftaran ?? '250000';
+  $paudHarian = $packages->where('name', 'PAUD IMUMU')->where('type', 'harian')->first();
+  $paudBulanan = $packages->where('name', 'PAUD IMUMU')->where('type', 'bulanan')->first();
+  $nonPaudHarian = $packages->where('name', 'Non-PAUD')->where('type', 'harian')->first();
+  $nonPaudBulanan = $packages->where('name', 'Non-PAUD')->where('type', 'bulanan')->first();
+
+  function formatShortPrice($price) {
+    $p = (int) $price;
+    if ($p >= 1000000) return number_format($p / 1000000, 0, ',', '.') . ' Juta';
+    if ($p >= 1000) return number_format($p / 1000, 0, ',', '.');
+    return $p;
+  }
+@endphp
+
     <div class="grid gap-6 md:grid-cols-3">
       <div class="rounded-card text-center p-8 border-2" style="background:white; border-color:#ffd900; box-shadow: 6px 6px 0 #ffd900">
         <div class="text-5xl mb-3">📋</div>
         <div class="font-display text-xl font-black text-ink">Pendaftaran</div>
-        <div class="mt-4 font-display font-black text-ink" style="font-size: 2.5rem; line-height:1">Rp 250<span class="text-xl">.000</span></div>
+        <div class="mt-4 font-display font-black text-ink" style="font-size: 2.5rem; line-height:1">Rp {{ formatShortPrice($tarif) }}<span class="text-xl">.000</span></div>
         <div class="mt-1 text-sm font-semibold" style="color:#5c5555">Biaya satu kali</div>
         <div class="mt-5 space-y-2 text-sm text-left">
           <div class="flex items-center gap-2"><span class="text-teal font-bold">✓</span>FC KK &amp; KTP Orang Tua</div>
           <div class="flex items-center gap-2"><span class="text-teal font-bold">✓</span>Foto 3×4 (3 lembar)</div>
           <div class="flex items-center gap-2"><span class="text-teal font-bold">✓</span>Formulir Pendaftaran</div>
         </div>
-        <a href="{{ route('contact') }}" class="btn btn-secondary w-full mt-6">Daftar Sekarang</a>
+        <a href="{{ route('daftar') }}" class="btn btn-secondary w-full mt-6">Daftar Sekarang</a>
       </div>
 
       <div class="rounded-card text-center p-8 border-2 relative" style="background:#09b1ab; border-color:#087c7a; box-shadow: 6px 6px 0 #087c7a">
@@ -162,14 +177,14 @@
         <div class="mt-4 border-t border-white/30 pt-4 space-y-3">
           <div>
             <div class="text-white/70 text-xs font-bold uppercase tracking-wider">Harian</div>
-            <div class="font-display font-black text-white" style="font-size:2rem">Rp 35<span class="text-lg">.000</span></div>
+            <div class="font-display font-black text-white" style="font-size:2rem">Rp {{ $paudHarian ? formatShortPrice($paudHarian->price) : '35' }}<span class="text-lg">.000</span></div>
           </div>
           <div class="border-t border-white/30 pt-3">
             <div class="text-white/70 text-xs font-bold uppercase tracking-wider">Bulanan</div>
-            <div class="font-display font-black text-white" style="font-size:2rem">Rp 500<span class="text-lg">.000</span></div>
+            <div class="font-display font-black text-white" style="font-size:2rem">Rp {{ $paudBulanan ? formatShortPrice($paudBulanan->price) : '500' }}<span class="text-lg">.000</span></div>
           </div>
         </div>
-        <a href="{{ route('contact') }}" class="btn w-full mt-6 font-black" style="background:#ffd900; color:#2f2b2b; box-shadow: 3px 3px 0 rgba(47,43,43,0.25)">Pilih Paket Ini</a>
+        <a href="{{ route('daftar') }}" class="btn w-full mt-6 font-black" style="background:#ffd900; color:#2f2b2b; box-shadow: 3px 3px 0 rgba(47,43,43,0.25)">Pilih Paket Ini</a>
       </div>
 
       <div class="rounded-card text-center p-8 border-2" style="background:white; border-color:#b85bd6; box-shadow: 6px 6px 0 #b85bd6">
@@ -178,14 +193,14 @@
         <div class="mt-4 border-t border-border-default pt-4 space-y-3">
           <div>
             <div class="text-xs font-bold uppercase tracking-wider" style="color:#5c5555">Harian</div>
-            <div class="font-display font-black text-ink" style="font-size:2rem">Rp 50<span class="text-lg">.000</span></div>
+            <div class="font-display font-black text-ink" style="font-size:2rem">Rp {{ $nonPaudHarian ? formatShortPrice($nonPaudHarian->price) : '50' }}<span class="text-lg">.000</span></div>
           </div>
           <div class="border-t border-border-default pt-3">
             <div class="text-xs font-bold uppercase tracking-wider" style="color:#5c5555">Bulanan</div>
-            <div class="font-display font-black text-ink" style="font-size:2rem">Rp 1 Juta</div>
+            <div class="font-display font-black text-ink" style="font-size:2rem">Rp {{ $nonPaudBulanan ? formatShortPrice($nonPaudBulanan->price) : '1 Juta' }}</div>
           </div>
         </div>
-        <a href="{{ route('contact') }}" class="btn btn-ghost w-full mt-6" style="box-shadow: 3px 3px 0 #b85bd6; border-color:#b85bd6; color:#b85bd6">Pilih Paket Ini</a>
+        <a href="{{ route('daftar') }}" class="btn btn-ghost w-full mt-6" style="box-shadow: 3px 3px 0 #b85bd6; border-color:#b85bd6; color:#b85bd6">Pilih Paket Ini</a>
       </div>
     </div>
 
