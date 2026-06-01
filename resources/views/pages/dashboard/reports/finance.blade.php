@@ -19,7 +19,7 @@
       </div>
       <div>
         <h3 class="text-lg font-bold text-gray-700 dark:text-imumu-dark-text">Export Laporan Keuangan</h3>
-        <p class="text-sm text-gray-400">Download data pembayaran dalam format CSV (bisa dibuka di Excel)</p>
+        <p class="text-sm text-gray-400">Download data pembayaran dalam format CSV atau Excel (XLSX)</p>
       </div>
     </div>
   </div>
@@ -70,8 +70,16 @@
         </div>
       </div>
 
+      <div>
+        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Format Export</label>
+        <select name="format" class="input-field">
+          <option value="csv">CSV (Universal)</option>
+          <option value="xlsx">Excel (XLSX)</option>
+        </select>
+      </div>
+
       <div class="flex gap-3 pt-4">
-        <button type="submit" class="btn-success flex-1 text-sm py-3">📥 Export Excel (CSV)</button>
+        <button type="submit" class="btn-success flex-1 text-sm py-3">📥 Download Laporan</button>
       </div>
     </form>
   </div>
@@ -80,31 +88,31 @@
   <div class="card">
     <h3 class="text-lg font-bold text-gray-700 dark:text-imumu-dark-text mb-4">Export Cepat</h3>
     <div class="grid grid-cols-2 gap-3">
-      <a href="{{ route('dashboard.reports.finance.export', ['month' => date('n'), 'year' => date('Y')]) }}" class="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors no-underline">
+      <a href="{{ route('dashboard.reports.finance.export', ['month' => date('n'), 'year' => date('Y'), 'format' => 'xlsx']) }}" class="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors no-underline">
         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         <div>
-          <p class="font-bold text-green-700 dark:text-green-400 text-sm">Bulan Ini</p>
+          <p class="font-bold text-green-700 dark:text-green-400 text-sm">Bulan Ini (Excel)</p>
           <p class="text-xs text-gray-400">{{ date('F Y') }}</p>
         </div>
       </a>
-      <a href="{{ route('dashboard.reports.finance.export', ['year' => date('Y')]) }}" class="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors no-underline">
+      <a href="{{ route('dashboard.reports.finance.export', ['year' => date('Y'), 'format' => 'xlsx']) }}" class="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors no-underline">
         <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         <div>
-          <p class="font-bold text-blue-700 dark:text-blue-400 text-sm">Tahun Ini</p>
+          <p class="font-bold text-blue-700 dark:text-blue-400 text-sm">Tahun Ini (Excel)</p>
           <p class="text-xs text-gray-400">{{ date('Y') }}</p>
         </div>
       </a>
-      <a href="{{ route('dashboard.reports.finance.export', ['status' => 'paid']) }}" class="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors no-underline">
+      <a href="{{ route('dashboard.reports.finance.export', ['status' => 'paid', 'format' => 'xlsx']) }}" class="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors no-underline">
         <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <div>
-          <p class="font-bold text-purple-700 dark:text-purple-400 text-sm">Yang Lunas</p>
+          <p class="font-bold text-purple-700 dark:text-purple-400 text-sm">Yang Lunas (Excel)</p>
           <p class="text-xs text-gray-400">Semua waktu</p>
         </div>
       </a>
-      <a href="{{ route('dashboard.reports.finance.export', ['status' => 'pending']) }}" class="flex items-center gap-3 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition-colors no-underline">
+      <a href="{{ route('dashboard.reports.finance.export', ['status' => 'pending', 'format' => 'xlsx']) }}" class="flex items-center gap-3 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition-colors no-underline">
         <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <div>
-          <p class="font-bold text-yellow-700 dark:text-yellow-400 text-sm">Yang Pending</p>
+          <p class="font-bold text-yellow-700 dark:text-yellow-400 text-sm">Yang Pending (Excel)</p>
           <p class="text-xs text-gray-400">Semua waktu</p>
         </div>
       </a>

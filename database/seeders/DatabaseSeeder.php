@@ -16,5 +16,8 @@ class DatabaseSeeder extends Seeder
             DefaultSettingsSeeder::class,
             DefaultPackagesSeeder::class,
         ]);
+
+        // Optional: Generate dummy data for testing
+        // $this->call(DummyDataSeeder::class);
     }
 }
