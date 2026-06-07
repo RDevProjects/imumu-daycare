@@ -229,7 +229,6 @@
       <div class="flex flex-wrap gap-4 text-sm font-semibold text-ink">
         <span class="flex items-center gap-2">📄 Fotokopi KK &amp; KTP Orang Tua</span>
         <span class="flex items-center gap-2">📸 Foto 3×4 sebanyak 3 lembar</span>
-        <span class="flex items-center gap-2">📝 Formulir pendaftaran diisi lengkap</span>
       </div>
     </div>
   </div>

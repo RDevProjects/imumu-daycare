@@ -159,7 +159,6 @@
         <ul class="space-y-1.5 text-sm font-semibold text-ink">
           <li class="flex items-center gap-2"><span style="color:#09b1ab">✓</span>FC KK & KTP Orang Tua</li>
           <li class="flex items-center gap-2"><span style="color:#09b1ab">✓</span>Foto 3×4 sebanyak 3 lembar</li>
-          <li class="flex items-center gap-2"><span style="color:#09b1ab">✓</span>Formulir pendaftaran (kami siapkan)</li>
         </ul>
         <p class="text-xs mt-3 font-semibold" style="color:#5c5555">Dokumen dibawa saat datang ke IMUMU Daycare setelah pendaftaran dikonfirmasi.</p>
       </div>
