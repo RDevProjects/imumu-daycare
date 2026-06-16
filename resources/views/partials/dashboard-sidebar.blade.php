@@ -34,7 +34,7 @@
     @endphp
 
     @foreach($menuItems as $item)
-      <a href="{{ route($item['route']) }}" class="{{ ($activePage ?? '') === $item['page'] ? 'nav-link-active' : 'nav-link' }}">
+      <a href="{{ route($item['route']) }}" @click="startProgress()" class="{{ ($activePage ?? '') === $item['page'] ? 'nav-link-active' : 'nav-link' }}">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
         </svg>
@@ -44,7 +44,7 @@
 
     <div class="pt-4 mt-4 border-t border-gray-100 dark:border-imumu-dark-border">
       @foreach($dividerMenu as $item)
-        <a href="{{ route($item['route']) }}" class="{{ ($activePage ?? '') === $item['page'] ? 'nav-link-active' : 'nav-link' }}">
+        <a href="{{ route($item['route']) }}" @click="startProgress()" class="{{ ($activePage ?? '') === $item['page'] ? 'nav-link-active' : 'nav-link' }}">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
           </svg>
