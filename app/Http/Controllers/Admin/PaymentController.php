@@ -34,14 +34,12 @@ class PaymentController extends Controller
         // Summary
         $totalTerkumpul = Payment::paid()->sum('amount');
         $totalPending = Payment::pending()->count();
-        $totalOverdue = Payment::overdue()->count();
         $totalReview = Payment::review()->count();
 
         return view('pages.dashboard.pembayaran.index', compact(
             'payments',
             'totalTerkumpul',
             'totalPending',
-            'totalOverdue',
             'totalReview'
         ));
     }

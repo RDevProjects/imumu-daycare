@@ -24,10 +24,6 @@ class ChildController extends Controller
             $query->where('class', $request->class);
         }
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
         $children = $query->paginate(12);
 
         return view('pages.dashboard.profile-anak.index', compact('children'));
@@ -49,5 +45,24 @@ class ChildController extends Controller
         $child->update($validated);
 
         return back()->with('success', 'Data anak berhasil diperbarui!');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'birth_date' => 'nullable|date',
+            'gender' => 'required|in:L,P',
+            'class' => 'nullable|in:bunga,matahari,bintang,bulan',
+            'parent_name' => 'required|string|max:255',
+            'parent_phone' => 'required|string|max:20',
+            'allergies' => 'nullable|string',
+        ]);
+
+        $validated['status'] = 'aktif';
+
+        Child::create($validated);
+
+        return back()->with('success', 'Data anak berhasil ditambahkan!');
     }
 }

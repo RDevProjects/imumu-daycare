@@ -45,57 +45,23 @@
     <div class="space-y-6" x-data="{ showAddModal: false }">
 
         {{-- Filter & Add Button --}}
-        <div class="flex flex-wrap gap-3 items-center">
+        <div class="flex flex-wrap gap-3 items-center justify-between">
             <div class="flex-1">
                 <form method="GET" class="flex flex-wrap gap-3">
                     <div class="flex-1 min-w-[200px]">
                         <input type="text" name="search" value="{{ request('search') }}"
                             placeholder="🔍 Cari nama anak / orang tua..." class="input-field w-full">
                     </div>
-                    <select name="status" class="input-field w-40">
-                        <option value="">Semua Status</option>
-                        <option value="aktif" {{ request('status') === 'aktif' ? 'selected' : '' }}>Aktif</option>
-                        <option value="cuti" {{ request('status') === 'cuti' ? 'selected' : '' }}>Cuti</option>
-                        <option value="sakit" {{ request('status') === 'sakit' ? 'selected' : '' }}>Sakit</option>
-                        <option value="pindah" {{ request('status') === 'pindah' ? 'selected' : '' }}>Pindah</option>
-                        <option value="lulus" {{ request('status') === 'lulus' ? 'selected' : '' }}>Lulus</option>
-                    </select>
                     <button type="submit" class="btn-primary px-6">Filter</button>
                     <a href="{{ route('dashboard.profile-anak') }}" class="btn-secondary px-4">Reset</a>
                 </form>
             </div>
-        </div>
-
-        {{-- Stats --}}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="stat-card border-l-4 border-green-500">
-                <div>
-                    <p class="text-sm text-gray-400 font-medium">Aktif</p>
-                    <p class="text-2xl font-bold text-gray-700 dark:text-imumu-dark-text mt-1">
-                        {{ \App\Models\Child::aktif()->count() }}</p>
-                </div>
-            </div>
-            <div class="stat-card border-l-4 border-yellow-500">
-                <div>
-                    <p class="text-sm text-gray-400 font-medium">Cuti</p>
-                    <p class="text-2xl font-bold text-gray-700 dark:text-imumu-dark-text mt-1">
-                        {{ \App\Models\Child::where('status', 'cuti')->count() }}</p>
-                </div>
-            </div>
-            <div class="stat-card border-l-4 border-red-500">
-                <div>
-                    <p class="text-sm text-gray-400 font-medium">Sakit</p>
-                    <p class="text-2xl font-bold text-gray-700 dark:text-imumu-dark-text mt-1">
-                        {{ \App\Models\Child::where('status', 'sakit')->count() }}</p>
-                </div>
-            </div>
-            <div class="stat-card border-l-4 border-imumu-pink-dark">
-                <div>
-                    <p class="text-sm text-gray-400 font-medium">Total</p>
-                    <p class="text-2xl font-bold text-gray-700 dark:text-imumu-dark-text mt-1">
-                        {{ \App\Models\Child::count() }}</p>
-                </div>
-            </div>
+            <a href="{{ route('dashboard.pendaftaran') }}" class="btn-primary px-4 py-2 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Tambah Anak
+            </a>
         </div>
 
         {{-- Children Grid --}}
@@ -171,7 +137,6 @@
                             d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     <p class="font-semibold">Belum ada anak terdaftar</p>
-                    <p class="text-sm mt-1">Anak akan otomatis ditambahkan setelah pembayaran lunas</p>
                 </div>
             @endforelse
         </div>

@@ -10,7 +10,7 @@
     <div class="space-y-6">
 
         {{-- Summary Cards --}}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="stat-card border-l-4 border-green-500">
                 <div class="flex items-center justify-between">
                     <div>
@@ -36,20 +36,6 @@
                         <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div class="stat-card border-l-4 border-red-500">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-gray-400 font-medium">Overdue</p>
-                        <p class="text-2xl font-bold text-gray-700 dark:text-imumu-dark-text mt-1">{{ $totalOverdue }}</p>
-                    </div>
-                    <div class="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
                         </svg>
                     </div>
                 </div>
@@ -83,7 +69,6 @@
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Lunas</option>
-                    <option value="overdue" {{ request('status') === 'overdue' ? 'selected' : '' }}>Overdue</option>
                     <option value="review" {{ request('status') === 'review' ? 'selected' : '' }}>Review</option>
                 </select>
                 <button type="submit" class="btn-primary px-6">Filter</button>
@@ -136,19 +121,18 @@
                             <td class="py-3 px-4 text-xs">{{ $payment->enrollment->package->label }}</td>
                             <td class="py-3 px-4 font-bold">Rp {{ number_format($payment->amount, 0, ',', '.') }}</td>
                             <td class="py-3 px-4 text-xs text-gray-400">{{ $payment->due_date->format('d M Y') }}</td>
-                            <td class="py-3 px-4">
-                                <span
-                                    class="px-2 py-1 rounded-full text-xs font-bold
-              {{ match ($payment->status) {
-                  'paid' => 'bg-green-100 text-green-700',
-                  'pending' => 'bg-yellow-100 text-yellow-700',
-                  'overdue' => 'bg-red-100 text-red-700',
-                  'review' => 'bg-blue-100 text-blue-700',
-                  default => 'bg-gray-100 text-gray-600',
-              } }}">
-                                    {{ ucfirst($payment->status) }}
-                                </span>
-                            </td>
+                             <td class="py-3 px-4">
+                                 <span
+                                     class="px-2 py-1 rounded-full text-xs font-bold
+                                     {{ match ($payment->status) {
+                                         'paid' => 'bg-green-100 text-green-700',
+                                         'pending' => 'bg-yellow-100 text-yellow-700',
+                                         'review' => 'bg-blue-100 text-blue-700',
+                                         default => 'bg-gray-100 text-gray-600',
+                                     } }}">
+                                     {{ ucfirst($payment->status) }}
+                                 </span>
+                             </td>
                             <td class="py-3 px-4">
                                 <div class="flex gap-2 flex-wrap">
                                     @if ($payment->status === 'pending')

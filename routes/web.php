@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
     // Children (Profile Anak)
     Route::get('/dashboard/profile-anak', [\App\Http\Controllers\Admin\ChildController::class, 'index'])->name('dashboard.profile-anak');
+    Route::post('/dashboard/profile-anak', [\App\Http\Controllers\Admin\ChildController::class, 'store'])->name('dashboard.profile-anak.store');
 
     // Payments
     Route::get('/dashboard/pembayaran', [\App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('dashboard.pembayaran');
