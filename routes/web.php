@@ -14,13 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public pages
-Route::get('/', function () {
-    $packages = \App\Models\Package::active()->orderBy('name')->orderBy('type')->get();
-    $tarifPendaftaran = \App\Models\Setting::get('tarif_pendaftaran', '250000');
-    return view('pages.index', compact('packages', 'tarifPendaftaran'));
-})->name('home');
-Route::view('/programs', 'pages.programs')->name('programs');
-Route::view('/contact', 'pages.contact')->name('contact');
+Route::get('/', [\App\Http\Controllers\PageController::class, 'index'])->name('home');
+Route::get('/programs', [\App\Http\Controllers\PageController::class, 'programs'])->name('programs');
 
 // Registration (public)
 Route::get('/daftar', [RegistrationController::class, 'create'])->name('daftar');

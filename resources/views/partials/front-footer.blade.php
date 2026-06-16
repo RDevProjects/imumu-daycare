@@ -15,7 +15,6 @@
   $waNumber = \App\Models\Setting::get('daycare_wa', '');
   $waName = \App\Models\Setting::get('wa_contact_name', '');
   $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
-  // Format: 628123456789 → 0812-3456-789
   $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
   if (strlen($waDisplayNumber) > 4) {
     $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
@@ -39,7 +38,7 @@
         <ul class="space-y-2.5" role="list">
           <li><a href="{{ route('home') }}" class="footer-link" style="color:rgba(255,255,255,0.7)">Beranda</a></li>
           <li><a href="{{ route('programs') }}" class="footer-link" style="color:rgba(255,255,255,0.7)">Program &amp; Fasilitas</a></li>
-          <li><a href="{{ route('contact') }}" class="footer-link" style="color:rgba(255,255,255,0.7)">Daftar Anak</a></li>
+          <li><a href="{{ route('daftar') }}" class="footer-link" style="color:rgba(255,255,255,0.7)">Daftar Anak</a></li>
         </ul>
       </div>
 
