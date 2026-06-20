@@ -33,11 +33,13 @@
         ],
     ];
 
-    $classColors = [
-        'bunga' => 'bg-imumu-pink-dark',
-        'matahari' => 'bg-imumu-yellow',
-        'bintang' => 'bg-imumu-blue',
-        'bulan' => 'bg-imumu-purple',
+    $paymentLabels = [
+        'pending' => 'Menunggu',
+        'verified' => 'Terverifikasi',
+        'paid' => 'Lunas',
+        'cash' => 'Tunai',
+        'overdue' => 'Jatuh Tempo',
+        'review' => 'Direview',
     ];
 @endphp
 
@@ -69,12 +71,9 @@
             @forelse($children as $child)
                 @php
                     $status = $statusColors[$child->status] ?? $statusColors['aktif'];
-                    $headerColor = $classColors[$child->class] ?? 'bg-gray-400';
                 @endphp
-                <div
-                    class="bg-white dark:bg-imumu-dark-card rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow border border-gray-100 dark:border-imumu-dark-border">
-                    {{-- Colored Header --}}
-                    <div class="h-3 {{ $headerColor }}"></div>
+                <div x-data="{ expanded: false }" @click="expanded = ! expanded"
+                    class="bg-white dark:bg-imumu-dark-card rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow border border-gray-100 dark:border-imumu-dark-border cursor-pointer">
 
                     <div class="p-5">
                         <div class="flex items-start justify-between mb-4">
@@ -127,6 +126,54 @@
                                     <span class="text-xs text-red-600 dark:text-red-400">{{ $child->allergies }}</span>
                                 </div>
                             @endif
+                        </div>
+
+                        {{-- Detail lengkap --}}
+                        <div x-show="expanded" x-transition:enter.duration.200ms
+                            class="mt-4 pt-4 border-t border-gray-100 dark:border-imumu-dark-border grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                                <span class="text-gray-400 text-xs">Tanggal Lahir</span>
+                                <p class="font-semibold text-gray-700 dark:text-gray-200">
+                                    {{ $child->birth_date?->format('d M Y') ?? '—' }}
+                                </p>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 text-xs">Jenis Kelamin</span>
+                                <p class="font-semibold text-gray-700 dark:text-gray-200">
+                                    {{ $child->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
+                                </p>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 text-xs">Usia</span>
+                                <p class="font-semibold text-gray-700 dark:text-gray-200">
+                                    @if ($child->birth_date)
+                                        {{ \Carbon\Carbon::parse($child->birth_date)->locale('id')->diffForHumans(['parts' => 2, 'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}
+                                    @else
+                                        —
+                                    @endif
+                                </p>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 text-xs">Terdaftar Sejak</span>
+                                <p class="font-semibold text-gray-700 dark:text-gray-200">
+                                    {{ $child->created_at?->format('d M Y') ?? '—' }}
+                                </p>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 text-xs">Paket</span>
+                                <p class="font-semibold text-gray-700 dark:text-gray-200">
+                                    {{ optional(optional($child->enrollment)->package)->name ?? '—' }}
+                                </p>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 text-xs">Status Pembayaran</span>
+                                <p class="font-semibold text-gray-700 dark:text-gray-200">
+                                    @php
+                                        $payStatus = optional(optional($child->enrollment)->payment)->status;
+                                    @endphp
+                                    {{ $payStatus ? ($paymentLabels[$payStatus] ?? ucfirst($payStatus)) : '—' }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

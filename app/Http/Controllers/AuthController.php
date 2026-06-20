@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -16,14 +14,6 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         return view('pages.auth.login');
-    }
-
-    /**
-     * Tampilkan halaman register.
-     */
-    public function showRegisterForm()
-    {
-        return view('pages.auth.register');
     }
 
     /**
@@ -45,31 +35,6 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended('/dashboard');
-    }
-
-    /**
-     * Proses register.
-     */
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'max:255', 'unique:users'],
-            'phone'    => ['nullable', 'string', 'max:20'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        $user = User::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
-            'phone'    => $validated['phone'] ?? null,
-            'password' => Hash::make($validated['password']),
-            'role'     => 'admin',
-        ]);
-
-        Auth::login($user);
-
-        return redirect('/dashboard');
     }
 
     /**

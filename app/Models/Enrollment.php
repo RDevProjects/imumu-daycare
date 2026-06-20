@@ -11,7 +11,7 @@ class Enrollment extends Model
 {
     protected $fillable = [
         'registration_number', 'parent_name', 'parent_phone', 'parent_email',
-        'child_name', 'child_age', 'child_gender', 'address',
+        'child_name', 'child_birth_date', 'child_gender', 'address',
         'package_id', 'payment_method', 'notes',
         'status', 'admin_notes', 'confirmed_by', 'confirmed_at', 'history_token',
     ];

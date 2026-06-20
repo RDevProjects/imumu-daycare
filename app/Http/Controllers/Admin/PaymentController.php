@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
-use App\Models\Enrollment;
 use App\Models\Invoice;
 use App\Models\Child;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
@@ -82,6 +80,7 @@ class PaymentController extends Controller
                 Child::create([
                     'enrollment_id' => $payment->enrollment_id,
                     'name' => $payment->enrollment->child_name,
+                    'birth_date' => $payment->enrollment->child_birth_date,
                     'gender' => $payment->enrollment->child_gender ?? 'L',
                     'parent_name' => $payment->enrollment->parent_name,
                     'parent_phone' => $payment->enrollment->parent_phone,
@@ -126,6 +125,7 @@ class PaymentController extends Controller
                 Child::create([
                     'enrollment_id' => $payment->enrollment_id,
                     'name' => $payment->enrollment->child_name,
+                    'birth_date' => $payment->enrollment->child_birth_date,
                     'gender' => $payment->enrollment->child_gender ?? 'L',
                     'parent_name' => $payment->enrollment->parent_name,
                     'parent_phone' => $payment->enrollment->parent_phone,

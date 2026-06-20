@@ -7,9 +7,7 @@ use App\Models\Enrollment;
 use App\Models\Payment;
 use App\Models\Bank;
 use App\Models\Setting;
-use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EnrollmentController extends Controller
 {
@@ -37,15 +35,19 @@ class EnrollmentController extends Controller
         return view('pages.dashboard.pendaftaran.index', compact('enrollments'));
     }
 
-    public function confirm(Enrollment $enrollment, WhatsAppService $waService)
+    public function confirm(Enrollment $enrollment)
     {
+        if ($enrollment->status !== 'pending') {
+            return back()->with('error', 'Pendaftaran sudah dikonfirmasi sebelumnya.');
+        }
+
         $enrollment->update([
             'status' => 'confirmed',
             'confirmed_by' => auth()->id(),
             'confirmed_at' => now(),
         ]);
 
-        // Create payment record
+        // ponytail: one Payment per Enrollment (hasOne). Duplicate guard above prevents double-creating.
         Payment::create([
             'enrollment_id' => $enrollment->id,
             'amount' => $enrollment->package->price,

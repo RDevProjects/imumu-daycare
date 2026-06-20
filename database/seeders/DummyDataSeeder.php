@@ -28,7 +28,6 @@ class DummyDataSeeder extends Seeder
             return;
         }
 
-        $classes = ['bunga', 'matahari', 'bintang', 'bulan'];
         $counter = 1;
 
         $this->command->info('Creating 800 enrollments...');
@@ -56,7 +55,7 @@ class DummyDataSeeder extends Seeder
                 'parent_phone' => '08' . rand(100000000, 999999999),
                 'parent_email' => strtolower(str_replace(' ', '', $parentName)) . '_' . $i . '@email.com',
                 'child_name' => $childName,
-                'child_age' => rand(1, 6) . ' tahun ' . rand(0, 11) . ' bulan',
+                'child_birth_date' => Carbon::now()->subYears(rand(2, 6))->subMonths(rand(0, 11))->subDays(rand(1, 28))->format('Y-m-d'),
                 'child_gender' => $gender,
                 'address' => 'Jl. Contoh No. ' . rand(1, 100) . ', Surakarta',
                 'package_id' => $package['id'],
@@ -99,7 +98,6 @@ class DummyDataSeeder extends Seeder
                     'name' => $enrollment->child_name,
                     'birth_date' => $enrollment->created_at->copy()->subYears(rand(2, 6))->subMonths(rand(0, 11)),
                     'gender' => $enrollment->child_gender,
-                    'class' => $classes[array_rand($classes)],
                     'parent_name' => $enrollment->parent_name,
                     'parent_phone' => $enrollment->parent_phone,
                     'allergies' => rand(0, 1) ? 'Tidak ada' : null,

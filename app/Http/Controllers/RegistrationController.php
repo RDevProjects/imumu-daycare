@@ -22,7 +22,7 @@ class RegistrationController extends Controller
             'parent_phone' => 'required|string|max:20',
             'parent_email' => 'nullable|email|max:255',
             'child_name' => 'required|string|max:255',
-            'child_age' => 'required|string|max:100',
+            'child_birth_date' => 'nullable|date',
             'child_gender' => 'nullable|in:L,P',
             'address' => 'nullable|string',
             'package_id' => 'required|exists:packages,id',

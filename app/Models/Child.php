@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Child extends Model
 {
     protected $fillable = [
-        'enrollment_id', 'name', 'birth_date', 'gender', 'class',
+        'enrollment_id', 'name', 'birth_date', 'gender',
         'parent_name', 'parent_phone', 'allergies', 'status',
     ];
 
@@ -24,17 +24,6 @@ class Child extends Model
     public function scopeAktif($query)
     {
         return $query->where('status', 'aktif');
-    }
-
-    public function getClassBadgeAttribute(): string
-    {
-        return match ($this->class) {
-            'bunga' => 'pink',
-            'matahari' => 'yellow',
-            'bintang' => 'blue',
-            'bulan' => 'purple',
-            default => 'gray',
-        };
     }
 
     public function getStatusBadgeAttribute(): string

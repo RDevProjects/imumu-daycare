@@ -98,13 +98,24 @@
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                <div>
-                                    <label for="child_age" class="block text-sm font-black text-ink mb-1.5">Usia Anak <span
+                                <div x-data="{
+                                    birthDate: '{{ old('child_birth_date') }}',
+                                    get agePreview() {
+                                        if (!this.birthDate) return '';
+                                        const b = new Date(this.birthDate), t = new Date();
+                                        let y = t.getFullYear() - b.getFullYear(), m = t.getMonth() - b.getMonth();
+                                        if (m < 0) { y--; m += 12; }
+                                        return 'Usia: ' + y + ' tahun ' + m + ' bulan';
+                                    }
+                                }">
+                                    <label for="child_birth_date" class="block text-sm font-black text-ink mb-1.5">Tanggal Lahir Anak <span
                                             class="text-pink">*</span></label>
-                                    <input type="text" id="child_age" name="child_age" value="{{ old('child_age') }}"
-                                        class="w-full rounded-md border border-gray-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-200 px-3 py-2 placeholder-opacity-70 @error('child_age') border-red-500 @enderror"
-                                        placeholder="Contoh: 2 tahun 3 bulan" required aria-required="true">
-                                    @error('child_age')
+                                    <input type="date" id="child_birth_date" name="child_birth_date"
+                                        value="{{ old('child_birth_date') }}" x-model="birthDate"
+                                        class="w-full rounded-md border border-gray-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-200 px-3 py-2 @error('child_birth_date') border-red-500 @enderror"
+                                        required aria-required="true" max="{{ date('Y-m-d') }}">
+                                    <p x-show="birthDate" class="text-sm text-teal-600 mt-1 font-semibold" x-text="agePreview"></p>
+                                    @error('child_birth_date')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>

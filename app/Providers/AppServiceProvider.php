@@ -2,23 +2,19 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
+        // ponytail: single-role admin gate. Expand to Policies if more roles appear.
+        Gate::before(fn ($user) => $user->role === 'admin');
     }
 }

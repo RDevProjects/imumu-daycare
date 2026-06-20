@@ -20,11 +20,7 @@ class ChildController extends Controller
             });
         }
 
-        if ($request->filled('class')) {
-            $query->where('class', $request->class);
-        }
-
-        $children = $query->paginate(12);
+        $children = $query->with(['enrollment.package', 'enrollment.payment'])->paginate(12);
 
         return view('pages.dashboard.profile-anak.index', compact('children'));
     }
@@ -35,7 +31,6 @@ class ChildController extends Controller
             'name' => 'required|string|max:255',
             'birth_date' => 'nullable|date',
             'gender' => 'required|in:L,P',
-            'class' => 'nullable|in:bunga,matahari,bintang,bulan',
             'parent_name' => 'required|string|max:255',
             'parent_phone' => 'required|string|max:20',
             'allergies' => 'nullable|string',
@@ -53,7 +48,6 @@ class ChildController extends Controller
             'name' => 'required|string|max:255',
             'birth_date' => 'nullable|date',
             'gender' => 'required|in:L,P',
-            'class' => 'nullable|in:bunga,matahari,bintang,bulan',
             'parent_name' => 'required|string|max:255',
             'parent_phone' => 'required|string|max:20',
             'allergies' => 'nullable|string',
