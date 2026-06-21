@@ -7,9 +7,19 @@
     if (strlen($waDisplayNumber) > 4) {
         $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
     }
+    $daycareName = \App\Models\Setting::get('daycare_name', 'IMUMU Daycare');
+    $daycareAddress = \App\Models\Setting::get('daycare_address', '');
+    $daycareOpenTime = \App\Models\Setting::get('daycare_open_time', '08:00');
+    $daycareCloseTime = \App\Models\Setting::get('daycare_close_time', '16:00');
+    $waMessage = urlencode("Assalamu'alaikum, saya dari website {$daycareName}");
+    $addressParts = explode(', ', $daycareAddress);
+    $cityName = $addressParts[count($addressParts) - 2] ?? 'Surakarta';
+    $cityRegion = $cityName . ', ' . (end($addressParts) ?: 'Jawa Tengah');
+    $openFormatted = str_replace(':', '.', $daycareOpenTime);
+    $closeFormatted = str_replace(':', '.', $daycareCloseTime);
 @endphp
 
-@section('title', 'Program & Fasilitas – IMUMU Daycare Surakarta')
+@section('title', 'Program & Fasilitas – ' . $daycareName . ' ' . $cityName)
 @section('description',
     'Program kegiatan dan fasilitas IMUMU Daycare: stimulasi perkembangan, hafalan do\'a, baby
     massage, cooking class, freezer ASI, dan lebih banyak lagi.')
@@ -31,8 +41,8 @@
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
                 <span class="badge badge-teal">Usia 3 Bln – 7 Thn</span>
-                <span class="badge badge-sunshine">Senin–Sabtu 08.00–16.00</span>
-                <span class="badge badge-orange">Surakarta, Jawa Tengah</span>
+                <span class="badge badge-sunshine">Senin–Sabtu {{ $openFormatted }}–{{ $closeFormatted }}</span>
+                <span class="badge badge-orange">{{ $cityRegion }}</span>
             </div>
         </div>
     </section>
@@ -262,7 +272,7 @@
                 hubungi {{ $waDisplayName }} langsung.</p>
             <div class="mt-6 flex flex-wrap justify-center gap-4">
                 <a href="{{ route('daftar') }}" class="btn btn-secondary btn-lg">Isi Formulir Daftar</a>
-                <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="btn btn-ghost btn-lg"
+                <a href="https://wa.me/{{ $waNumber }}?text={{ $waMessage }}" target="_blank" rel="noopener" class="btn btn-ghost btn-lg"
                     style="color:white; box-shadow: inset 0 0 0 2px white">💬
                     {{ $waDisplayNumber }}</a>
             </div>

@@ -8,11 +8,21 @@
     if (strlen($waDisplayNumber) > 4) {
         $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
     }
+    $daycareName = \App\Models\Setting::get('daycare_name', 'IMUMU Daycare');
+    $daycareAddress = \App\Models\Setting::get('daycare_address', '');
+    $daycareOpenTime = \App\Models\Setting::get('daycare_open_time', '08:00');
+    $daycareCloseTime = \App\Models\Setting::get('daycare_close_time', '16:00');
+    $waMessage = urlencode("Assalamu'alaikum, saya dari website {$daycareName}");
+    $addressParts = explode(', ', $daycareAddress);
+    $cityName = $addressParts[count($addressParts) - 2] ?? 'Surakarta';
+    $cityRegion = $cityName . ', ' . (end($addressParts) ?: 'Jawa Tengah');
+    $openFormatted = str_replace(':', '.', $daycareOpenTime);
+    $closeFormatted = str_replace(':', '.', $daycareCloseTime);
 @endphp
 
-@section('title', 'IMUMU Daycare – Penitipan Anak Terpercaya di Surakarta')
-@section('description', 'IMUMU Daycare menyediakan penitipan anak yang aman, hangat, dan menyenangkan. Usia 3 bulan – 7
-    tahun. Senin–Sabtu 08.00–16.00.')
+@section('title', $daycareName . ' – Penitipan Anak Terpercaya di ' . $cityName)
+@section('description', $daycareName . ' menyediakan penitipan anak yang aman, hangat, dan menyenangkan. Usia 3 bulan – 7
+    tahun. Senin–Sabtu ' . $openFormatted . '–' . $closeFormatted . '.')
 
 @section('content')
 
@@ -27,7 +37,7 @@
             <div class="md:w-1/2">
                 <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full font-bold text-sm border-2 border-teal-dark rotate-[-1deg]"
                     style="background:white; color:#087c7a">
-                    🕐 Senin–Sabtu &nbsp;|&nbsp; 08.00–16.00 WIB
+                    🕐 Senin–Sabtu &nbsp;|&nbsp; {{ $openFormatted }}–{{ $closeFormatted }} WIB
                 </div>
 
                 <h1 class="font-display font-black text-ink leading-tight" style="font-size: clamp(2.5rem, 5vw, 4rem)">
@@ -41,7 +51,7 @@
 
                 <div class="mt-6 flex flex-wrap gap-3">
                     <a href="{{ route('daftar') }}" class="btn btn-primary btn-lg">🌟 Daftar Sekarang</a>
-                    <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
+                    <a href="https://wa.me/{{ $waNumber }}?text={{ $waMessage }}" target="_blank" rel="noopener"
                         class="btn btn-secondary btn-lg">💬 Tanya {{ $waDisplayName }}</a>
                 </div>
 
@@ -245,7 +255,7 @@
         <div class="mx-auto max-w-7xl">
             <div class="text-center mb-12">
                 <h2 class="section-title">Kenapa Pilih IMUMU Daycare?</h2>
-                <p class="section-subtitle mt-2">Dipercaya ratusan keluarga di Surakarta.</p>
+                <p class="section-subtitle mt-2">Dipercaya ratusan keluarga di {{ $cityName }}.</p>
             </div>
             <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div class="card text-center">
@@ -288,7 +298,7 @@
                 membantu!
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-4">
-                <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
+                <a href="https://wa.me/{{ $waNumber }}?text={{ $waMessage }}" target="_blank" rel="noopener"
                     class="btn btn-secondary btn-lg">💬 {{ $waDisplayNumber }}</a>
                     <a href="{{ route('daftar') }}" class="btn btn-ghost btn-lg"
                         style="color:white; box-shadow: inset 0 0 0 2px white">Isi Formulir
