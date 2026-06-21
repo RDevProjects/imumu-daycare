@@ -11,7 +11,7 @@
 
 @section('content')
     <div x-data="{
-        activeSection: '{{ session('active_section', 'profil') }}',
+        activeSection: '{{ request('section', session('active_section', 'profil')) }}',
         tarif: {
             pendaftaran: {{ (int) ($settings['tarif_pendaftaran'] ?? 250000) }},
         }
