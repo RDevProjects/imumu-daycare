@@ -289,7 +289,15 @@ class PaymentController extends Controller
             $cleanPhone = '62' . substr($cleanPhone, 1);
         }
 
-        $formattedDates = collect($dates)->map(fn($d) => Carbon::parse($d)->format('d/m/Y'))->join(', ');
+        $coll = collect($dates)->sort()->values();
+        if ($paymentType === 'bulanan' && $coll->count() > 1) {
+            $first = Carbon::parse($coll->first())->format('d/m/Y');
+            $last = Carbon::parse($coll->last())->format('d/m/Y');
+            $count = $coll->count();
+            $formattedDates = "{$first} s/d {$last} ({$count} hari)";
+        } else {
+            $formattedDates = $coll->map(fn($d) => Carbon::parse($d)->format('d/m/Y'))->join(', ');
+        }
 
         $message = str_replace(
             ['{parent_title}', '{parent_name}', '{child_name}', '{payment_type}', '{dates}', '{amount}', '{bank_info}'],
