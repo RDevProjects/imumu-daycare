@@ -26,7 +26,6 @@ class RegistrationController extends Controller
             'child_gender' => 'nullable|in:L,P',
             'address' => 'nullable|string',
             'package_id' => 'required|exists:packages,id',
-            'payment_method' => 'required|in:cash,transfer',
             'notes' => 'nullable|string',
         ]);
 

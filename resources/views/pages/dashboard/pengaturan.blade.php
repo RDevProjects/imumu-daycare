@@ -383,13 +383,24 @@
                 </h3>
                 <form action="{{ route('dashboard.pengaturan.update') }}" method="POST">
                     @csrf
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <div>
                             <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Template
                                 Konfirmasi Pendaftaran</label>
-                            <p class="text-xs text-gray-400 dark:text-gray-400 mb-2">Placeholder: {parent_name},
-                                {child_name}, {package_name}, {amount}, {bank_info}</p>
-                            <textarea name="wa_template_konfirmasi" rows="8" class="input-field resize-none text-sm font-mono">{{ old('wa_template_konfirmasi', $settings['wa_template_konfirmasi'] ?? '') }}</textarea>
+                            <p class="text-xs text-gray-400 dark:text-gray-400 mb-2">Placeholder: {parent_name}, {parent_title}, {child_name}, {package_name}, {amount}, {bank_info}, {tracking_url}</p>
+                            <textarea name="wa_template_konfirmasi" rows="6" class="input-field resize-none text-sm font-mono">{{ old('wa_template_konfirmasi', $settings['wa_template_konfirmasi'] ?? '') }}</textarea>
+                        </div>
+                        <div class="border-t border-gray-100 dark:border-imumu-dark-border pt-6">
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Template
+                                Tagihan Harian</label>
+                            <p class="text-xs text-gray-400 dark:text-gray-400 mb-2">Placeholder: {parent_name}, {parent_title}, {child_name}, {dates}, {amount}, {bank_info}, {payment_type}</p>
+                            <textarea name="wa_template_harian" rows="6" class="input-field resize-none text-sm font-mono">{{ old('wa_template_harian', $settings['wa_template_harian'] ?? "Assalamu'alaikum {parent_title} {parent_name}!\n\nPembayaran harian untuk {child_name}:\nTanggal: {dates}\nBiaya: {amount}\n\nTransfer ke:\n{bank_info}\n\nSetelah transfer, kirimkan buktinya ke sini ya.") }}</textarea>
+                        </div>
+                        <div class="border-t border-gray-100 dark:border-imumu-dark-border pt-6">
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Template
+                                Tagihan Bulanan</label>
+                            <p class="text-xs text-gray-400 dark:text-gray-400 mb-2">Placeholder: {parent_name}, {parent_title}, {child_name}, {month}, {amount}, {bank_info}, {payment_type}</p>
+                            <textarea name="wa_template_bulanan" rows="6" class="input-field resize-none text-sm font-mono">{{ old('wa_template_bulanan', $settings['wa_template_bulanan'] ?? "Assalamu'alaikum {parent_title} {parent_name}!\n\nPembayaran bulanan untuk {child_name} bulan ini:\nBiaya: {amount}\n\nTransfer ke:\n{bank_info}\n\nSetelah transfer, kirimkan buktinya ke sini ya.") }}</textarea>
                         </div>
                         <div class="flex gap-3 pt-4">
                             <button type="submit" class="btn-primary w-full text-sm py-2">Simpan Template</button>

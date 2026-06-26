@@ -3,7 +3,17 @@
 @php
     $activePage = 'pembayaran';
     $title = 'Verifikasi Pembayaran';
-    $subtitle = $payment->enrollment->child_name;
+    $subtitle = $payment->enrollment?->child_name ?? $payment->child?->name ?? '';
+
+    $paymentTypeLabels = [
+        'registration' => 'Pendaftaran',
+        'harian' => 'Harian',
+        'bulanan' => 'Bulanan',
+    ];
+
+    $childName = $payment->child?->name ?? $payment->enrollment?->child_name ?? '—';
+    $parentName = $payment->child?->parent_name ?? $payment->enrollment?->parent_name ?? '—';
+    $packageLabel = $payment->enrollment?->package?->label ?? '—';
 @endphp
 
 @section('content')
@@ -15,16 +25,21 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="bg-gray-50 dark:bg-imumu-dark-surface rounded-xl p-4">
                     <p class="text-sm text-gray-400">Anak</p>
-                    <p class="font-bold text-gray-700 dark:text-imumu-dark-text">{{ $payment->enrollment->child_name }}</p>
+                    <p class="font-bold text-gray-700 dark:text-imumu-dark-text">{{ $childName }}</p>
                 </div>
                 <div class="bg-gray-50 dark:bg-imumu-dark-surface rounded-xl p-4">
                     <p class="text-sm text-gray-400">Orang Tua</p>
-                    <p class="font-bold text-gray-700 dark:text-imumu-dark-text">{{ $payment->enrollment->parent_name }}</p>
+                    <p class="font-bold text-gray-700 dark:text-imumu-dark-text">{{ $parentName }}</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-imumu-dark-surface rounded-xl p-4">
+                    <p class="text-sm text-gray-400">Tipe</p>
+                    <p class="font-bold text-gray-700 dark:text-imumu-dark-text">
+                        {{ $paymentTypeLabels[$payment->payment_type] ?? ucfirst($payment->payment_type) }}
+                    </p>
                 </div>
                 <div class="bg-gray-50 dark:bg-imumu-dark-surface rounded-xl p-4">
                     <p class="text-sm text-gray-400">Paket</p>
-                    <p class="font-bold text-gray-700 dark:text-imumu-dark-text">{{ $payment->enrollment->package->label }}
-                    </p>
+                    <p class="font-bold text-gray-700 dark:text-imumu-dark-text">{{ $packageLabel }}</p>
                 </div>
                 <div class="bg-gray-50 dark:bg-imumu-dark-surface rounded-xl p-4">
                     <p class="text-sm text-gray-400">Nominal</p>
@@ -49,6 +64,22 @@
                         {{ ucfirst($payment->status) }}
                     </span>
                 </div>
+
+                @if ($payment->dates->isNotEmpty())
+                    <div class="col-span-2 bg-gray-50 dark:bg-imumu-dark-surface rounded-xl p-4">
+                        <p class="text-sm text-gray-400 mb-2">Tanggal</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            @foreach ($payment->dates as $pd)
+                                <span class="px-2 py-1 rounded-lg text-xs font-bold bg-teal-100 text-teal-700">
+                                    {{ $pd->date->format('d M Y') }}
+                                </span>
+                            @endforeach
+                            <p class="text-xs text-gray-400 mt-2 w-full">
+                                Total: {{ $payment->dates->count() }} hari
+                            </p>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -60,7 +91,6 @@
                     enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
-                    {{-- Upload Bukti Transfer (arsip admin) --}}
                     <div>
                         <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Upload Bukti
                             Transfer (arsip)</label>

@@ -153,7 +153,7 @@
                     <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-imumu-dark-surface rounded-xl">
                         <div>
                             <p class="font-semibold text-gray-700 dark:text-imumu-dark-text">
-                                {{ $payment->enrollment->child_name }}</p>
+                                {{ $payment->child?->name ?? $payment->enrollment?->child_name ?? '—' }}</p>
                             <p class="text-xs text-gray-400">
                                 {{ $payment->payment_method === 'cash' ? '💵 Cash' : '🏦 Transfer' }} • Rp
                                 {{ number_format($payment->amount, 0, ',', '.') }}</p>

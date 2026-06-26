@@ -56,12 +56,16 @@ class FinanceReportController extends Controller
         // Prepare data rows
         $dataRows = [];
         foreach ($payments as $payment) {
+            $childName = $payment->child?->name ?? $payment->enrollment?->child_name ?? '-';
+            $parentName = $payment->child?->parent_name ?? $payment->enrollment?->parent_name ?? '-';
+            $packageLabel = $payment->enrollment?->package?->label ?? '-';
+
             $dataRows[] = [
                 $payment->invoice?->invoice_number ?? '-',
                 $payment->payment_date?->format('d/m/Y') ?? '-',
-                $payment->enrollment->child_name,
-                $payment->enrollment->parent_name,
-                $payment->enrollment->package->label,
+                $childName,
+                $parentName,
+                $packageLabel,
                 'Rp ' . number_format($payment->amount, 0, ',', '.'),
                 $payment->payment_method === 'cash' ? 'Cash' : 'Transfer',
                 ucfirst($payment->status),

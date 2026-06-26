@@ -22,7 +22,7 @@ class DashboardController extends Controller
             ->get();
 
         // Recent payments
-        $recentPayments = \App\Models\Payment::with(['enrollment', 'enrollment.child'])
+        $recentPayments = \App\Models\Payment::with(['enrollment', 'enrollment.child', 'child'])
             ->latest()
             ->take(5)
             ->get();

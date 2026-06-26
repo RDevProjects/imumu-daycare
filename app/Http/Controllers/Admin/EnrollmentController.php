@@ -51,7 +51,7 @@ class EnrollmentController extends Controller
         Payment::create([
             'enrollment_id' => $enrollment->id,
             'amount' => $enrollment->package->price,
-            'payment_method' => $enrollment->payment_method,
+            'payment_method' => $enrollment->payment_method ?? 'transfer',
             'due_date' => now()->addDays(7),
             'status' => 'pending',
         ]);

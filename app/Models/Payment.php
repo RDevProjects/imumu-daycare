@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model
 {
     protected $fillable = [
-        'enrollment_id', 'amount', 'payment_method', 'payment_date', 'due_date',
+        'enrollment_id', 'child_id', 'payment_type', 'amount', 'payment_method', 'payment_date', 'due_date',
         'bukti_transfer', 'verified_by', 'verified_at', 'status', 'notes',
     ];
 
@@ -23,6 +24,16 @@ class Payment extends Model
     public function enrollment(): BelongsTo
     {
         return $this->belongsTo(Enrollment::class);
+    }
+
+    public function child(): BelongsTo
+    {
+        return $this->belongsTo(Child::class);
+    }
+
+    public function dates(): HasMany
+    {
+        return $this->hasMany(PaymentDate::class);
     }
 
     public function verifiedBy(): BelongsTo

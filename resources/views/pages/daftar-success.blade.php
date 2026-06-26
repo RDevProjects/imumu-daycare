@@ -26,7 +26,7 @@
 
             <p class="section-subtitle mt-4 max-w-xl mx-auto">
                 Terima kasih telah mendaftarkan <strong>{{ $enrollment->child_name }}</strong>. Kami akan segera menghubungi
-                Anda via WhatsApp.
+                Anda via WhatsApp untuk informasi pembayaran.
             </p>
 
             <!-- Registration Details -->
@@ -49,6 +49,10 @@
                         <span class="text-sm font-semibold" style="color:#5c5555">Total</span>
                         <span class="font-black" style="color:#09b1ab">Rp
                             {{ number_format($enrollment->package->price, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                        <span class="text-sm font-semibold" style="color:#5c5555">Pembayaran</span>
+                        <span class="badge badge-warning">Via WhatsApp</span>
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-sm font-semibold" style="color:#5c5555">Status</span>
@@ -80,10 +84,12 @@
                 <div class="font-display text-base font-black text-ink mb-2">📋 Langkah Selanjutnya</div>
                 <ul class="space-y-1.5 text-sm font-semibold text-ink text-left max-w-md mx-auto">
                     <li class="flex items-start gap-2"><span class="text-teal font-bold mt-0.5">1.</span> Admin akan
-                        menghubungi Anda via WhatsApp</li>
-                    <li class="flex items-start gap-2"><span class="text-teal font-bold mt-0.5">2.</span> Lakukan pembayaran
-                        sesuai metode yang dipilih</li>
-                    <li class="flex items-start gap-2"><span class="text-teal font-bold mt-0.5">3.</span> Bawa berkas (FC
+                        menghubungi Anda via WhatsApp untuk info tagihan & pembayaran</li>
+                    <li class="flex items-start gap-2"><span class="text-teal font-bold mt-0.5">2.</span> Lakukan transfer
+                        sesuai petunjuk dari admin</li>
+                    <li class="flex items-start gap-2"><span class="text-teal font-bold mt-0.5">3.</span> Kirim bukti
+                        transfer via WhatsApp</li>
+                    <li class="flex items-start gap-2"><span class="text-teal font-bold mt-0.5">4.</span> Bawa berkas (FC
                         KK, KTP, Foto 3×4) ke IMUMU Daycare</li>
                 </ul>
             </div>

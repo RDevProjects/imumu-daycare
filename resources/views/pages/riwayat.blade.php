@@ -80,6 +80,9 @@
                             </p>
                             <p class="text-xs font-semibold" style="color:#5c5555">
                                 {{ $payment->payment_method === 'cash' ? '💵 Cash' : '🏦 Transfer' }}
+                                @if ($payment->payment_type)
+                                    • {{ ucfirst($payment->payment_type) }}
+                                @endif
                                 @if ($payment->invoice)
                                     • Invoice: {{ $payment->invoice->invoice_number }}
                                 @endif

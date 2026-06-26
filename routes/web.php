@@ -58,8 +58,13 @@ Route::middleware('auth')->group(function () {
     // Children (Profile Anak)
     Route::get('/dashboard/profile-anak', [\App\Http\Controllers\Admin\ChildController::class, 'index'])->name('dashboard.profile-anak');
     Route::post('/dashboard/profile-anak', [\App\Http\Controllers\Admin\ChildController::class, 'store'])->name('dashboard.profile-anak.store');
+    Route::patch('/dashboard/profile-anak/{child}', [\App\Http\Controllers\Admin\ChildController::class, 'update'])->name('dashboard.profile-anak.update');
 
-    // Payments
+    // Payments — child calendar routes BEFORE {payment} wildcard
+    Route::get('/dashboard/pembayaran/child/{child}', [\App\Http\Controllers\Admin\PaymentController::class, 'showChildCalendar'])->name('dashboard.pembayaran.child');
+    Route::post('/dashboard/pembayaran/child/{child}/store', [\App\Http\Controllers\Admin\PaymentController::class, 'storeRecurring'])->name('dashboard.pembayaran.child.store');
+    Route::get('/dashboard/pembayaran/child/{child}/wa-preview', [\App\Http\Controllers\Admin\PaymentController::class, 'waPreview'])->name('dashboard.pembayaran.child.wa');
+
     Route::get('/dashboard/pembayaran', [\App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('dashboard.pembayaran');
     Route::get('/dashboard/pembayaran/{payment}/verify', [\App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('dashboard.pembayaran.verify');
     Route::post('/dashboard/pembayaran/{payment}/mark-paid', [\App\Http\Controllers\Admin\PaymentController::class, 'markAsPaid'])->name('dashboard.pembayaran.mark-paid');

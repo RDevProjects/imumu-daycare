@@ -14,7 +14,8 @@ class HistoryController extends Controller
             ->with(['package', 'payment.invoice'])
             ->firstOrFail();
 
-        $payments = Payment::where('enrollment_id', $enrollment->id)
+        $payments = Payment::with('invoice')
+            ->where('enrollment_id', $enrollment->id)
             ->latest()
             ->get();
 

@@ -65,6 +65,12 @@
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="🔍 Cari nama anak..."
                         class="input-field w-full">
                 </div>
+                <select name="payment_type" class="input-field w-44">
+                    <option value="">Semua Tipe</option>
+                    <option value="registration" {{ $activePaymentType === 'registration' ? 'selected' : '' }}>Pendaftaran</option>
+                    <option value="harian" {{ $activePaymentType === 'harian' ? 'selected' : '' }}>Harian</option>
+                    <option value="bulanan" {{ $activePaymentType === 'bulanan' ? 'selected' : '' }}>Bulanan</option>
+                </select>
                 <select name="status" class="input-field w-40">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
@@ -84,6 +90,7 @@
                 <thead>
                     <tr class="border-b border-gray-100 dark:border-imumu-dark-border">
                         <th class="text-left py-3 px-4 font-semibold text-gray-500">Anak</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-500">Tipe</th>
                         <th class="text-left py-3 px-4 font-semibold text-gray-500">Paket</th>
                         <th class="text-left py-3 px-4 font-semibold text-gray-500">Nominal</th>
                         <th class="text-left py-3 px-4 font-semibold text-gray-500">Due Date</th>
@@ -94,33 +101,54 @@
                 <tbody>
                     @forelse($payments as $payment)
                         @php
-                            $cleanPhone = preg_replace('/[^0-9+]/', '', $payment->enrollment->parent_phone);
+                            $childName = $payment->child?->name ?? $payment->enrollment?->child_name ?? '—';
+                            $parentName = $payment->child?->parent_name ?? $payment->enrollment?->parent_name ?? '—';
+                            $parentPhone = $payment->child?->parent_phone ?? $payment->enrollment?->parent_phone ?? '';
+                            $packageLabel = $payment->enrollment?->package?->label ?? '—';
+
+                            $cleanPhone = preg_replace('/[^0-9+]/', '', $parentPhone);
                             $cleanPhone = ltrim($cleanPhone, '+');
                             if (str_starts_with($cleanPhone, '0')) {
                                 $cleanPhone = '62' . substr($cleanPhone, 1);
                             }
 
                             $parentTitle = 'Bapak/Ibu';
-                            $trackerUrl = $payment->enrollment->history_url;
+                            $trackerUrl = $payment->enrollment?->history_url ?? '';
 
                             if ($payment->status === 'paid') {
                                 $waMsg =
-                                    "Assalamu'alaikum {$parentTitle} {$payment->enrollment->parent_name}!\n\nPembayaran untuk {$payment->enrollment->child_name} telah kami konfirmasi.\n\n[Detail]\n- Paket: {$payment->enrollment->package->label}\n- Total: Rp " .
+                                    "Assalamu'alaikum {$parentTitle} {$parentName}!\n\nPembayaran untuk {$childName} telah kami konfirmasi.\n\n[Detail]\n- Paket: {$packageLabel}\n- Total: Rp " .
                                     number_format($payment->amount, 0, ',', '.') .
-                                    "\n- Status: LUNAS\n\n[Tracker] Cek status pendaftaran:\n{$trackerUrl}\n\nJazakumullahu khairan.\nWassalamu'alaikum Wr. Wb.";
+                                    "\n- Status: LUNAS\n\nJazakumullahu khairan.\nWassalamu'alaikum Wr. Wb.";
                                 $waUrl = "https://wa.me/{$cleanPhone}?text=" . rawurlencode($waMsg);
                             }
+
+                            $paymentTypeLabels = [
+                                'registration' => 'Pendaftaran',
+                                'harian' => 'Harian',
+                                'bulanan' => 'Bulanan',
+                            ];
+                            $paymentTypeBadge = match ($payment->payment_type) {
+                                'registration' => 'bg-purple-100 text-purple-700',
+                                'harian' => 'bg-cyan-100 text-cyan-700',
+                                'bulanan' => 'bg-orange-100 text-orange-700',
+                                default => 'bg-gray-100 text-gray-600',
+                            };
                         @endphp
                         <tr
                             class="border-b border-gray-50 dark:border-imumu-dark-border hover:bg-gray-50 dark:hover:bg-imumu-dark-surface">
                             <td class="py-3 px-4">
-                                <p class="font-bold text-gray-700 dark:text-imumu-dark-text">
-                                    {{ $payment->enrollment->child_name }}</p>
-                                <p class="text-xs text-gray-400">{{ $payment->enrollment->parent_name }}</p>
+                                <p class="font-bold text-gray-700 dark:text-imumu-dark-text">{{ $childName }}</p>
+                                <p class="text-xs text-gray-400">{{ $parentName }}</p>
                             </td>
-                            <td class="py-3 px-4 text-xs">{{ $payment->enrollment->package->label }}</td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-0.5 rounded-full text-xs font-bold {{ $paymentTypeBadge }}">
+                                    {{ $paymentTypeLabels[$payment->payment_type] ?? ucfirst($payment->payment_type) }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-xs">{{ $packageLabel }}</td>
                             <td class="py-3 px-4 font-bold">Rp {{ number_format($payment->amount, 0, ',', '.') }}</td>
-                            <td class="py-3 px-4 text-xs text-gray-400">{{ $payment->due_date->format('d M Y') }}</td>
+                            <td class="py-3 px-4 text-xs text-gray-400">{{ $payment->due_date?->format('d M Y') ?? '—' }}</td>
                              <td class="py-3 px-4">
                                  <span
                                      class="px-2 py-1 rounded-full text-xs font-bold
@@ -155,10 +183,12 @@
                                             class="px-3 py-1.5 bg-green-100 text-green-700 text-xs font-semibold rounded-lg hover:bg-green-200 no-underline flex items-center gap-1">
                                             💬 Chat WA
                                         </a>
-                                        <a href="{{ $trackerUrl }}" target="_blank"
-                                            class="px-3 py-1.5 bg-blue-100 text-blue-600 text-xs font-semibold rounded-lg hover:bg-blue-200 no-underline">
-                                            🔗 Tracker
-                                        </a>
+                                        @if ($trackerUrl)
+                                            <a href="{{ $trackerUrl }}" target="_blank"
+                                                class="px-3 py-1.5 bg-blue-100 text-blue-600 text-xs font-semibold rounded-lg hover:bg-blue-200 no-underline">
+                                                🔗 Tracker
+                                            </a>
+                                        @endif
                                         @if ($payment->invoice)
                                             <a href="{{ route('public.invoice.show', $payment->invoice->slug) }}"
                                                 target="_blank"
@@ -172,7 +202,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="py-12 text-center text-gray-400">
+                            <td colspan="7" class="py-12 text-center text-gray-400">
                                 <p class="font-semibold">Belum ada pembayaran</p>
                             </td>
                         </tr>
