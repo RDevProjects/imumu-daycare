@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
+@source inline("ring-2 ring-offset-1 ring-orange-400 dark:ring-orange-400 bg-red-100 dark:bg-red-900/40 text-red-400 border-red-200 dark:border-red-800 bg-red-900/40 border-red-800");
 
 @theme {
   /* Fonts */

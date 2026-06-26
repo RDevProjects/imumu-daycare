@@ -18,6 +18,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Optional: Generate dummy data for testing
-        // $this->call(DummyDataSeeder::class);
+        $this->call(DummyDataSeeder::class);
     }
 }
