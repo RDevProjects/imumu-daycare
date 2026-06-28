@@ -70,9 +70,12 @@
                             : $enrollment->parent_phone)
                         : \App\Models\Setting::get('daycare_wa', '');
                 @endphp
+                @php
+                    $waContactName = \App\Models\Setting::get('wa_contact_name', '');
+                    $waChatDisplayName = $waContactName ? (str_starts_with(strtolower($waContactName), 'bunda ') ? $waContactName : 'Bunda ' . $waContactName) : 'Bunda';
+                @endphp
                 <a href="https://wa.me/{{ $waNumber }}" target="_blank" class="btn btn-secondary btn-lg">
-                    💬 Chat
-                    {{ \App\Models\Setting::get('wa_contact_name', '') ? 'Bunda ' . \App\Models\Setting::get('wa_contact_name', '') : 'Bunda' }}
+                    💬 Chat {{ $waChatDisplayName }}
                 </a>
                 <a href="{{ route('home') }}" class="btn btn-primary btn-lg">
                     🏠 Kembali ke Beranda

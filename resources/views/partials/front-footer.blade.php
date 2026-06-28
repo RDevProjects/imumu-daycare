@@ -14,7 +14,7 @@
 @php
   $waNumber = \App\Models\Setting::get('daycare_wa', '');
   $waName = \App\Models\Setting::get('wa_contact_name', '');
-  $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
+  $waDisplayName = $waName ? (str_starts_with(strtolower($waName), 'bunda ') ? $waName : "Bunda {$waName}") : 'Bunda';
   $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
   if (strlen($waDisplayNumber) > 4) {
     $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);

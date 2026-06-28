@@ -3,7 +3,7 @@
 @php
     $waNumber = \App\Models\Setting::get('daycare_wa', '');
     $waName = \App\Models\Setting::get('wa_contact_name', '');
-    $waDisplayName = $waName ? "Bunda {$waName}" : 'Bunda';
+    $waDisplayName = $waName ? (str_starts_with(strtolower($waName), 'bunda ') ? $waName : "Bunda {$waName}") : 'Bunda';
     $waDisplayNumber = $waNumber ? '0' . substr($waNumber, 2) : '';
     if (strlen($waDisplayNumber) > 4) {
         $waDisplayNumber = preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $waDisplayNumber);
@@ -21,8 +21,14 @@
 @endphp
 
 @section('title', $daycareName . ' – Penitipan Anak Terpercaya di ' . $cityName)
-@section('description', $daycareName . ' menyediakan penitipan anak yang aman, hangat, dan menyenangkan. Usia 3 bulan – 7
-    tahun. Senin–Sabtu ' . $openFormatted . '–' . $closeFormatted . '.')
+@section('description',
+    $daycareName .
+    ' menyediakan penitipan anak yang aman, hangat, dan menyenangkan. Usia 3 bulan – 7
+    tahun. Senin–Sabtu ' .
+    $openFormatted .
+    '–' .
+    $closeFormatted .
+    '.')
 
 @section('content')
 
@@ -64,8 +70,7 @@
 
             <div class="mt-12 md:mt-0 md:w-1/2 flex justify-center">
                 <div class="relative">
-                    <div class="rounded-card bg-white p-8 w-80"
-                        style="box-shadow: 0 12px 30px rgba(47,43,43,0.12)">
+                    <div class="rounded-card bg-white p-8 w-80" style="box-shadow: 0 12px 30px rgba(47,43,43,0.12)">
                         <div class="text-center">
                             <div class="text-6xl mb-3">👶🍼</div>
                             <div class="font-display text-2xl font-black text-ink">Usia 3 Bln – 7 Thn</div>
@@ -98,8 +103,62 @@
         </div>
     </section>
 
+    <!-- ===== PROGRAM LAYANAN ===== -->
+    <section class="px-4 py-16 md:py-24">
+        <div class="mx-auto max-w-7xl">
+            <div class="text-center mb-12">
+                <h2 class="section-title">Program Layanan</h2>
+                <p class="section-subtitle mt-2 max-w-2xl mx-auto">
+                    Setiap tahapan usia si kecil mendapatkan program yang dirancang khusus sesuai
+                    kebutuhan tumbuh kembangnya.
+                </p>
+            </div>
+
+            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+                <div class="card text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full text-3xl mb-3"
+                        style="background:#d8f7f5">👶</div>
+                    <div class="font-display text-lg font-black text-ink">Baby</div>
+                    <span class="badge badge-teal mt-2 text-xs">0 – 12 Bulan</span>
+                    <p class="mt-3 text-sm" style="color:#5c5555">Fokus pada asuh: tidur teratur, ASI/susu, stimulasi
+                        sensorik dasar, bonding emosional.</p>
+                </div>
+
+                <div class="card text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full text-3xl mb-3"
+                        style="background:#ffd6e5">🧸</div>
+                    <div class="font-display text-lg font-black text-ink">Toddler</div>
+                    <span class="badge badge-pink mt-2 text-xs">1 – 3 Tahun</span>
+                    <p class="mt-3 text-sm" style="color:#5c5555">Asah & asuh: belajar berjalan, berbicara, bermain,
+                        makan mandiri, toilet training awal.</p>
+                </div>
+
+                <div class="card text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full text-3xl mb-3"
+                        style="background:#ffe0c7">🎒</div>
+                    <div class="font-display text-lg font-black text-ink">Preschooler (KB)</div>
+                    <span class="badge badge-orange mt-2 text-xs">3 – 5 Tahun</span>
+                    <p class="mt-3 text-sm" style="color:#5c5555">Stimulasi kognitif, motorik halus, bahasa, hafalan
+                        surat/do'a, adab harian, siap masuk PAUD.</p>
+                </div>
+
+                <div class="card text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full text-3xl mb-3"
+                        style="background:#f0d7ff">📚</div>
+                    <div class="font-display text-lg font-black text-ink">PAUD (TK A/B)</div>
+                    <span class="badge badge-purple mt-2 text-xs">5 – 7 Tahun</span>
+                    <p class="mt-3 text-sm" style="color:#5c5555">Kegiatan pembelajaran awal (calistung ringan), penguatan
+                        karakter, kemandirian, sosialisasi.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- ===== PROGRAM & FASILITAS (2-col teaser) ===== -->
-    <section class="px-4 py-16 md:py-24 md:px-8 mx-auto max-w-7xl">
+    <section class="px-4 py-16 md:py-24" style="background:#eaf9fc">
+        <div class="mx-auto max-w-7xl">
             <div class="text-center mb-12">
                 <h2 class="section-title">Program &amp; Fasilitas</h2>
                 <p class="section-subtitle mt-2 max-w-2xl mx-auto">Dirancang oleh tim ahli untuk tumbuh kembang anak yang
@@ -107,12 +166,12 @@
             </div>
 
             <div class="grid gap-6 md:grid-cols-2">
-                <div class="rounded-card overflow-hidden border-2"
-                    style="border-color:#e83f7d">
+                <div class="rounded-card overflow-hidden border-2" style="border-color:#e83f7d">
                     <div class="px-6 py-4 font-display text-xl font-black text-white" style="background:#e83f7d">🎒 Program
                         Kegiatan</div>
                     <div class="p-6 space-y-3" style="background:white">
-                        <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Stimulasi
+                        <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span>
+                            Stimulasi
                             Perkembangan</div>
                         <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Hafalan
                             Do'a &amp; Surat Pendek</div>
@@ -122,17 +181,18 @@
                             Pemeriksaan Kesehatan Rutin</div>
                         <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Baby
                             Massage</div>
-                        <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Read Aloud
+                        <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Read
+                            Aloud
                             &amp; Literasi</div>
                         <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Cooking
                             Class</div>
-                        <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Taman Gizi
+                        <div class="check-list-item"><span class="check-icon" style="background:#e83f7d">✓</span> Taman
+                            Gizi
                         </div>
                     </div>
                 </div>
 
-                <div class="rounded-card overflow-hidden border-2"
-                    style="border-color:#f36b21">
+                <div class="rounded-card overflow-hidden border-2" style="border-color:#f36b21">
                     <div class="px-6 py-4 font-display text-xl font-black text-white" style="background:#f36b21">🏠
                         Fasilitas Unggulan</div>
                     <div class="p-6 space-y-3" style="background:white">
@@ -163,7 +223,7 @@
     </section>
 
     <!-- ===== HARGA / TARIF ===== -->
-    <section class="px-4 py-16 md:py-24" style="background:#eaf9fc">
+    <section class="px-4 py-16 md:py-24">
 
         <div class="mx-auto max-w-7xl">
             <div class="text-center mb-12">
@@ -174,8 +234,7 @@
 
 
             <div class="grid gap-6 md:grid-cols-3">
-                <div class="rounded-card text-center p-8 border-2"
-                    style="background:white; border-color:#ffd900">
+                <div class="rounded-card text-center p-8 border-2" style="background:white; border-color:#ffd900">
                     <div class="text-5xl mb-3">📋</div>
                     <div class="font-display text-xl font-black text-ink">Pendaftaran</div>
                     <div class="mt-4 font-display font-black text-ink" style="font-size: 2.5rem; line-height:1">Rp
@@ -216,8 +275,7 @@
                         Ini</a>
                 </div>
 
-                <div class="rounded-card text-center p-8 border-2"
-                    style="background:white; border-color:#b85bd6">
+                <div class="rounded-card text-center p-8 border-2" style="background:white; border-color:#b85bd6">
                     <div class="text-5xl mb-3">🧸</div>
                     <div class="font-display text-xl font-black text-ink">Murid Non-PAUD</div>
                     <div class="mt-4 border-t border-border-default pt-4 space-y-3">
@@ -255,7 +313,7 @@
         <div class="mx-auto max-w-7xl">
             <div class="text-center mb-12">
                 <h2 class="section-title">Kenapa Pilih IMUMU Daycare?</h2>
-                <p class="section-subtitle mt-2">Dipercaya ratusan keluarga di {{ $cityName }}.</p>
+                <p class="section-subtitle mt-2">Tempat terbaik si kecil belajar &amp; bermain.</p>
             </div>
             <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div class="card text-center">
@@ -287,22 +345,19 @@
     </section>
 
     <!-- ===== CTA WHATSAPP ===== -->
-    <section class="px-4 py-16 md:py-24">
+    <section class="px-4 py-16 md:py-24" style="background:#eaf9fc">
 
-        <div class="mx-auto max-w-3xl rounded-card text-center px-8 py-12 md:px-16"
-            style="background:#09b1ab; box-shadow: 0 8px 24px rgba(8,124,122,0.25)">
+        <div class="mx-auto max-w-3xl text-center px-8 py-12 md:px-16">
             <div class="text-5xl mb-4">💬</div>
-            <h2 class="font-display text-3xl font-black text-white md:text-4xl">Ada Pertanyaan?</h2>
-            <p class="mt-2 text-lg font-semibold" style="color:rgba(255,255,255,0.85)">
-                Hubungi langsung <strong class="text-white">{{ $waDisplayName }}</strong> via WhatsApp. Kami siap
+            <h2 class="font-display text-3xl font-black text-ink md:text-4xl">Ada Pertanyaan?</h2>
+            <p class="mt-2 text-lg font-semibold" style="color:#5c5555">
+                Hubungi langsung <strong class="text-ink">{{ $waDisplayName }}</strong> via WhatsApp. Kami siap
                 membantu!
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-4">
                 <a href="https://wa.me/{{ $waNumber }}?text={{ $waMessage }}" target="_blank" rel="noopener"
                     class="btn btn-secondary btn-lg">💬 {{ $waDisplayNumber }}</a>
-                    <a href="{{ route('daftar') }}" class="btn btn-ghost btn-lg"
-                        style="color:white; box-shadow: inset 0 0 0 2px white">Isi Formulir
-                        Daftar</a>
+                <a href="{{ route('daftar') }}" class="btn btn-primary btn-lg">Isi Formulir Daftar</a>
             </div>
         </div>
     </section>
