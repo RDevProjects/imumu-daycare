@@ -45,7 +45,7 @@ class BankController extends Controller
 
     public function toggleActive(Bank $bank)
     {
-        $bank->update(['is_active' => !$bank->is_active]);
+        $bank->update(['is_active' => ! $bank->is_active]);
 
         return back()->with('success', 'Status rekening berhasil diubah!');
     }

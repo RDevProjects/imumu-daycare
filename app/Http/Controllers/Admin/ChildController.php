@@ -17,7 +17,7 @@ class ChildController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('parent_name', 'like', "%{$search}%");
+                    ->orWhere('parent_name', 'like', "%{$search}%");
             });
         }
 
@@ -42,7 +42,7 @@ class ChildController extends Controller
 
         $child->update($validated);
 
-        if (!empty($validated['package_id']) && $child->enrollment) {
+        if (! empty($validated['package_id']) && $child->enrollment) {
             $child->enrollment->update(['package_id' => $validated['package_id']]);
         }
 

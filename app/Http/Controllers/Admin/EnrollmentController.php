@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\Enrollment;
 use App\Models\Payment;
-use App\Models\Bank;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
@@ -25,8 +25,8 @@ class EnrollmentController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('child_name', 'like', "%{$search}%")
-                  ->orWhere('parent_name', 'like', "%{$search}%")
-                  ->orWhere('registration_number', 'like', "%{$search}%");
+                    ->orWhere('parent_name', 'like', "%{$search}%")
+                    ->orWhere('registration_number', 'like', "%{$search}%");
             });
         }
 
@@ -74,7 +74,7 @@ class EnrollmentController extends Controller
      */
     public function getWhatsAppMessage(Enrollment $enrollment)
     {
-        $template = Setting::get('wa_template_konfirmasi') ?? "Halo {parent_name}! Pendaftaran {child_name} telah dikonfirmasi.";
+        $template = Setting::get('wa_template_konfirmasi') ?? 'Halo {parent_name}! Pendaftaran {child_name} telah dikonfirmasi.';
 
         $banks = Bank::active()->get();
         $bankInfo = $banks->map(function ($b) {
@@ -88,7 +88,7 @@ class EnrollmentController extends Controller
                 $enrollment->parent_name,
                 $enrollment->child_name,
                 $enrollment->package->label,
-                'Rp ' . number_format($enrollment->package->price, 0, ',', '.'),
+                'Rp '.number_format($enrollment->package->price, 0, ',', '.'),
                 $bankInfo,
                 $enrollment->history_url,
             ],

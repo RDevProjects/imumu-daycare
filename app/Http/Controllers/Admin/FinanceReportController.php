@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
-use OpenSpout\Writer\CSV\Writer as CSVWriter;
-use OpenSpout\Writer\XLSX\Writer as XLSXWriter;
-use OpenSpout\Common\Entity\Row;
+use Illuminate\Http\Request;
 use OpenSpout\Common\Entity\Cell\StringCell;
-use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\CellAlignment;
 use OpenSpout\Common\Entity\Style\Color;
-use Illuminate\Http\Request;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer as XLSXWriter;
 
 class FinanceReportController extends Controller
 {
@@ -38,7 +37,7 @@ class FinanceReportController extends Controller
 
         if ($validated['month'] && $validated['year']) {
             $query->whereYear('payment_date', $validated['year'])
-                  ->whereMonth('payment_date', $validated['month']);
+                ->whereMonth('payment_date', $validated['month']);
         } elseif ($validated['year']) {
             $query->whereYear('payment_date', $validated['year']);
         }
@@ -66,7 +65,7 @@ class FinanceReportController extends Controller
                 $childName,
                 $parentName,
                 $packageLabel,
-                'Rp ' . number_format($payment->amount, 0, ',', '.'),
+                'Rp '.number_format($payment->amount, 0, ',', '.'),
                 $payment->payment_method === 'cash' ? 'Cash' : 'Transfer',
                 ucfirst($payment->status),
             ];
@@ -85,17 +84,17 @@ class FinanceReportController extends Controller
         $summaryRows = [
             ['RINGKASAN'],
             [],
-            ['Total Pendapatan', 'Rp ' . number_format($totalPaid, 0, ',', '.')],
-            ['- Cash', 'Rp ' . number_format($payments->where('status', 'paid')->where('payment_method', 'cash')->sum('amount'), 0, ',', '.') . ' (' . $payments->where('status', 'paid')->where('payment_method', 'cash')->count() . ' transaksi)'],
-            ['- Transfer', 'Rp ' . number_format($payments->where('status', 'paid')->where('payment_method', 'transfer')->sum('amount'), 0, ',', '.') . ' (' . $payments->where('status', 'paid')->where('payment_method', 'transfer')->count() . ' transaksi)'],
+            ['Total Pendapatan', 'Rp '.number_format($totalPaid, 0, ',', '.')],
+            ['- Cash', 'Rp '.number_format($payments->where('status', 'paid')->where('payment_method', 'cash')->sum('amount'), 0, ',', '.').' ('.$payments->where('status', 'paid')->where('payment_method', 'cash')->count().' transaksi)'],
+            ['- Transfer', 'Rp '.number_format($payments->where('status', 'paid')->where('payment_method', 'transfer')->sum('amount'), 0, ',', '.').' ('.$payments->where('status', 'paid')->where('payment_method', 'transfer')->count().' transaksi)'],
             [],
-            ['Pending', 'Rp ' . number_format($totalPending, 0, ',', '.') . ' (' . $pendingCount . ' transaksi)'],
-            ['Overdue', 'Rp ' . number_format($totalOverdue, 0, ',', '.') . ' (' . $overdueCount . ' transaksi)'],
+            ['Pending', 'Rp '.number_format($totalPending, 0, ',', '.').' ('.$pendingCount.' transaksi)'],
+            ['Overdue', 'Rp '.number_format($totalOverdue, 0, ',', '.').' ('.$overdueCount.' transaksi)'],
             [],
-            ['Total Keseluruhan', 'Rp ' . number_format($totalAll, 0, ',', '.') . ' (' . $payments->count() . ' transaksi)'],
+            ['Total Keseluruhan', 'Rp '.number_format($totalAll, 0, ',', '.').' ('.$payments->count().' transaksi)'],
         ];
 
-        $filename = 'laporan-keuangan-' . now()->format('Y-m-d-His');
+        $filename = 'laporan-keuangan-'.now()->format('Y-m-d-His');
 
         if ($format === 'xlsx') {
             return $this->exportXlsx($filename, $dataRows, $summaryRows);
@@ -108,17 +107,17 @@ class FinanceReportController extends Controller
     {
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '.csv"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'.csv"',
             'Pragma' => 'no-cache',
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
         ];
 
-        $callback = function() use ($dataRows, $summaryRows) {
+        $callback = function () use ($dataRows, $summaryRows) {
             $file = fopen('php://output', 'w');
             fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 
             fputcsv($file, ['LAPORAN KEUANGAN IMUMU DAYCARE']);
-            fputcsv($file, ['Periode: ' . now()->format('d F Y H:i')]);
+            fputcsv($file, ['Periode: '.now()->format('d F Y H:i')]);
             fputcsv($file, []);
 
             fputcsv($file, ['No Invoice', 'Tanggal Bayar', 'Nama Anak', 'Nama Orang Tua', 'Paket', 'Nominal', 'Metode', 'Status']);
@@ -140,9 +139,9 @@ class FinanceReportController extends Controller
 
     private function exportXlsx($filename, $dataRows, $summaryRows)
     {
-        $filePath = storage_path('app/' . $filename . '.xlsx');
+        $filePath = storage_path('app/'.$filename.'.xlsx');
 
-        $writer = new XLSXWriter();
+        $writer = new XLSXWriter;
 
         // OpenSpout v5: Style via constructor
         $headerStyle = new Style(
@@ -161,16 +160,17 @@ class FinanceReportController extends Controller
         $writer->openToFile($filePath);
 
         // Helper to create row with styled cells
-        $createRow = function($values, $style = null) {
-            $cells = array_map(function($value) use ($style) {
+        $createRow = function ($values, $style = null) {
+            $cells = array_map(function ($value) use ($style) {
                 return new StringCell((string) $value, $style);
             }, $values);
+
             return new Row($cells);
         };
 
         // Title row
         $writer->addRow($createRow(['LAPORAN KEUANGAN IMUMU DAYCARE'], $titleStyle));
-        $writer->addRow($createRow(['Periode: ' . now()->format('d F Y H:i')]));
+        $writer->addRow($createRow(['Periode: '.now()->format('d F Y H:i')]));
         $writer->addRow($createRow([]));
 
         // Header row

@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  @vite(['resources/css/auth.css', 'resources/js/app.js'])
+  @vite(['resources/css/admin.css', 'resources/js/app.js'])
 </head>
 <body x-data="{ darkMode: isDarkMode() }" :class="{ 'dark': darkMode }" class="min-h-screen bg-imumu-bg dark:bg-imumu-dark-bg overflow-hidden relative transition-colors duration-300">
 <script>document.body.style.backgroundColor=document.documentElement.classList.contains('dark')?'#1a1a2e':'#FFF5F7'</script>

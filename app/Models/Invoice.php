@@ -23,7 +23,7 @@ class Invoice extends Model
         parent::boot();
 
         static::creating(function ($invoice) {
-            if (!$invoice->slug) {
+            if (! $invoice->slug) {
                 $invoice->slug = Str::uuid()->toString();
             }
         });
@@ -41,6 +41,6 @@ class Invoice extends Model
 
     public function getFormattedAmountAttribute(): string
     {
-        return 'Rp ' . number_format((float) $this->total_amount, 0, ',', '.');
+        return 'Rp '.number_format((float) $this->total_amount, 0, ',', '.');
     }
 }

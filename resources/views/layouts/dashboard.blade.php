@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  @vite(['resources/css/auth.css', 'resources/js/app.js'])
+  @vite(['resources/css/admin.css', 'resources/js/app.js'])
 </head>
 <body x-data="{ sidebarOpen: false, darkMode: isDarkMode(), userDropdown: false, showToast: {{ session('success') ? 'true' : 'false' }}, toastMessage: '{{ session('success') }}' }" :class="{ 'dark': darkMode }" class="bg-imumu-bg dark:bg-imumu-dark-bg dark:text-imumu-dark-text min-h-screen transition-colors duration-300">
 <script>document.body.style.backgroundColor=document.documentElement.classList.contains('dark')?'#1a1a2e':'#FFF5F7'</script>

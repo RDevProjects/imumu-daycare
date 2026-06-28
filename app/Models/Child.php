@@ -34,12 +34,12 @@ class Child extends Model
 
     public function scopeHarian($query)
     {
-        return $query->whereHas('enrollment.package', fn($q) => $q->where('type', 'harian'));
+        return $query->whereHas('enrollment.package', fn ($q) => $q->where('type', 'harian'));
     }
 
     public function scopeBulanan($query)
     {
-        return $query->whereHas('enrollment.package', fn($q) => $q->where('type', 'bulanan'));
+        return $query->whereHas('enrollment.package', fn ($q) => $q->where('type', 'bulanan'));
     }
 
     public function scopeAktif($query)

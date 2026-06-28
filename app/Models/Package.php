@@ -26,11 +26,11 @@ class Package extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return 'Rp ' . number_format((float) $this->price, 0, ',', '.');
+        return 'Rp '.number_format((float) $this->price, 0, ',', '.');
     }
 
     public function getLabelAttribute(): string
     {
-        return "{$this->name} - " . ucfirst($this->type);
+        return "{$this->name} - ".ucfirst($this->type);
     }
 }

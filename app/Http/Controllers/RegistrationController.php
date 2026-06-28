@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Package;
 use App\Models\Enrollment;
+use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,6 +12,7 @@ class RegistrationController extends Controller
     public function create()
     {
         $packages = Package::active()->orderBy('name')->orderBy('type')->get();
+
         return view('pages.daftar', compact('packages'));
     }
 
@@ -32,7 +33,7 @@ class RegistrationController extends Controller
         // Generate registration number: REG-YYYYMMDD-XXX
         $date = now()->format('Ymd');
         $count = Enrollment::whereDate('created_at', today())->count() + 1;
-        $registrationNumber = 'REG-' . $date . '-' . str_pad($count, 3, '0', STR_PAD_LEFT);
+        $registrationNumber = 'REG-'.$date.'-'.str_pad($count, 3, '0', STR_PAD_LEFT);
 
         // Generate unique history token
         $historyToken = Str::random(32);

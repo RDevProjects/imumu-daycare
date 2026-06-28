@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Enrollment;
 use App\Models\Payment;
-use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {

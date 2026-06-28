@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
 use App\Models\Bank;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
@@ -35,7 +35,7 @@ class SettingsController extends Controller
         ]);
 
         // Filter out null values and empty strings
-        $validated = array_filter($validated, fn($v) => $v !== null && $v !== '');
+        $validated = array_filter($validated, fn ($v) => $v !== null && $v !== '');
 
         foreach ($validated as $key => $value) {
             Setting::set($key, $value);
@@ -58,7 +58,7 @@ class SettingsController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . auth()->id(),
+            'email' => 'required|email|unique:users,email,'.auth()->id(),
             'phone' => 'nullable|string|max:20',
             'current_password' => 'nullable|required_with:new_password',
             'new_password' => 'nullable|min:6|confirmed',
@@ -69,8 +69,8 @@ class SettingsController extends Controller
         $user->email = $validated['email'];
         $user->phone = $validated['phone'] ?? null;
 
-        if (!empty($validated['new_password'])) {
-            if (!\Hash::check($validated['current_password'], $user->password)) {
+        if (! empty($validated['new_password'])) {
+            if (! \Hash::check($validated['current_password'], $user->password)) {
                 return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
             }
             $user->password = \Hash::make($validated['new_password']);

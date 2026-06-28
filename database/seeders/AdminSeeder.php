@@ -14,11 +14,11 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name'     => 'Admin IMUMU',
-            'email'    => 'admin@imumu.com',
-            'phone'    => '081234567890',
+            'name' => 'Admin IMUMU',
+            'email' => 'admin@imumu.com',
+            'phone' => '081234567890',
             'password' => Hash::make('password'),
-            'role'     => 'admin',
+            'role' => 'admin',
         ]);
     }
 }

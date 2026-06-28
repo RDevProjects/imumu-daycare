@@ -11,6 +11,7 @@ class PackageController extends Controller
     public function index()
     {
         $packages = Package::orderBy('name')->orderBy('type')->get();
+
         return view('pages.dashboard.packages.index', compact('packages'));
     }
 
@@ -53,7 +54,7 @@ class PackageController extends Controller
 
     public function toggleActive(Package $package)
     {
-        $package->update(['is_active' => !$package->is_active]);
+        $package->update(['is_active' => ! $package->is_active]);
 
         return back()->with('success', 'Status paket berhasil diubah!');
     }

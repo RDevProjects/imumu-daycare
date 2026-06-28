@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Enrollment extends Model
 {
@@ -62,6 +61,6 @@ class Enrollment extends Model
 
     public function getHistoryUrlAttribute(): string
     {
-        return url('/riwayat/' . $this->history_token);
+        return url('/riwayat/'.$this->history_token);
     }
 }

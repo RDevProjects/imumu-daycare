@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Payment extends Model
 {
@@ -68,11 +68,11 @@ class Payment extends Model
 
     public function getFormattedAmountAttribute(): string
     {
-        return 'Rp ' . number_format((float) $this->amount, 0, ',', '.');
+        return 'Rp '.number_format((float) $this->amount, 0, ',', '.');
     }
 
     public function getBuktiTransferUrlAttribute(): ?string
     {
-        return $this->bukti_transfer ? asset('storage/' . $this->bukti_transfer) : null;
+        return $this->bukti_transfer ? asset('storage/'.$this->bukti_transfer) : null;
     }
 }
