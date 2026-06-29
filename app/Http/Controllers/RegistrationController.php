@@ -28,6 +28,7 @@ class RegistrationController extends Controller
             'address' => 'nullable|string',
             'package_id' => 'required|exists:packages,id',
             'notes' => 'nullable|string',
+            'payment_method' => 'required|in:cash,transfer',
         ]);
 
         // Generate registration number: REG-YYYYMMDD-XXX

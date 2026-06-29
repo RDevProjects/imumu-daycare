@@ -140,31 +140,56 @@
                             </div>
                         </div>
 
-                        {{-- Paket --}}
+                        {{-- Paket & Pembayaran --}}
                         <div>
                             <h3 class="font-display text-lg font-bold text-ink mb-4 flex items-center gap-2">
                                 <span
                                     class="w-8 h-8 rounded-full bg-yellow text-ink flex items-center justify-center text-sm font-bold">3</span>
-                                Pilih Paket
+                                Paket & Pembayaran
                             </h3>
-                            <div>
-                                <label for="package_id" class="block text-sm font-black text-ink mb-1.5">Pilih Paket
-                                    <span class="text-pink">*</span></label>
-                                <select id="package_id" name="package_id"
-                                    class="w-full rounded-md border border-gray-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-200 px-3 py-2 @error('package_id') border-red-500 @enderror"
-                                    required>
-                                    <option value="">Pilih paket…</option>
-                                    @foreach ($packages as $pkg)
-                                        <option value="{{ $pkg->id }}" data-price="{{ $pkg->price }}"
-                                            {{ old('package_id') == $pkg->id ? 'selected' : '' }}>
-                                            {{ $pkg->name }} - {{ ucfirst($pkg->type) }}
-                                            ({{ $pkg->formatted_price }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('package_id')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                            <div class="grid gap-5 sm:grid-cols-2">
+                                <div>
+                                    <label for="package_id" class="block text-sm font-black text-ink mb-1.5">Pilih Paket
+                                        <span class="text-pink">*</span></label>
+                                    <select id="package_id" name="package_id"
+                                        class="w-full rounded-md border border-gray-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-200 px-3 py-2 @error('package_id') border-red-500 @enderror"
+                                        required>
+                                        <option value="">Pilih paket…</option>
+                                        @foreach ($packages as $pkg)
+                                            <option value="{{ $pkg->id }}" data-price="{{ $pkg->price }}"
+                                                {{ old('package_id') == $pkg->id ? 'selected' : '' }}>
+                                                {{ $pkg->name }} - {{ ucfirst($pkg->type) }}
+                                                ({{ $pkg->formatted_price }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('package_id')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-black text-ink mb-1.5">Metode Pembayaran <span
+                                            class="text-pink">*</span></label>
+                                    <div class="flex gap-4 mt-2">
+                                        <label
+                                            class="flex items-center gap-2 cursor-pointer p-3 rounded-lg border border-gray-200 hover:border-teal-400 transition-all {{ old('payment_method') === 'cash' ? 'border-teal-500 bg-teal-50' : '' }}">
+                                            <input type="radio" name="payment_method" value="cash"
+                                                {{ old('payment_method') === 'cash' ? 'checked' : '' }}
+                                                class="w-4 h-4 text-teal">
+                                            <span class="font-semibold text-ink">💵 Cash</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 cursor-pointer p-3 rounded-lg border border-gray-200 hover:border-teal-400 transition-all {{ old('payment_method') === 'transfer' ? 'border-teal-500 bg-teal-50' : '' }}">
+                                            <input type="radio" name="payment_method" value="transfer"
+                                                {{ old('payment_method') === 'transfer' ? 'checked' : '' }}
+                                                class="w-4 h-4 text-teal">
+                                            <span class="font-semibold text-ink">🏦 Transfer</span>
+                                        </label>
+                                    </div>
+                                    @error('payment_method')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 
