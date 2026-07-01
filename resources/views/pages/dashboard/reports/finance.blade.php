@@ -32,6 +32,18 @@
             <form action="{{ route('dashboard.reports.finance.export') }}" method="GET" class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
+                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Tanggal
+                            Mulai</label>
+                        <input type="date" name="start_date" value="{{ request('start_date') }}" class="input-field">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Tanggal
+                            Akhir</label>
+                        <input type="date" name="end_date" value="{{ request('end_date') }}" class="input-field">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
                         <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Bulan</label>
                         <select name="month" class="input-field">
                             <option value="">Semua Bulan</option>
@@ -52,7 +64,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Status</label>

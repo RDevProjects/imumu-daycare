@@ -24,6 +24,8 @@ class FinanceReportController extends Controller
         $validated = $request->validate([
             'month' => 'nullable|integer|min:1|max:12',
             'year' => 'nullable|integer|min:2020|max:2100',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
             'status' => 'nullable|in:paid,pending,overdue,review',
             'payment_method' => 'nullable|in:cash,transfer',
             'format' => 'nullable|in:csv,xlsx',
@@ -35,7 +37,15 @@ class FinanceReportController extends Controller
             ->orderBy('payment_date', 'desc')
             ->orderBy('created_at', 'desc');
 
-        if ($validated['month'] && $validated['year']) {
+        if ($validated['start_date'] || $validated['end_date']) {
+            if ($validated['start_date'] && $validated['end_date']) {
+                $query->whereBetween('payment_date', [$validated['start_date'], $validated['end_date']]);
+            } elseif ($validated['start_date']) {
+                $query->whereDate('payment_date', '>=', $validated['start_date']);
+            } else {
+                $query->whereDate('payment_date', '<=', $validated['end_date']);
+            }
+        } elseif ($validated['month'] && $validated['year']) {
             $query->whereYear('payment_date', $validated['year'])
                 ->whereMonth('payment_date', $validated['month']);
         } elseif ($validated['year']) {
